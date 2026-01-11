@@ -1,41 +1,72 @@
-# crypto-app
- React Web App displaying live cryptocurrencies data ( prices, trends, and charts )
+# 🚀 Crypto Dashboard
 
-Header
- └─ Currency Selector - View your preferred cryptos in different currencies
+A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **TanStack Query**, featuring real-time price updates, caching, and a retro terminal-inspired UI.
 
-Main Content
- ├─ Top 20 by Market Cap
- │    └─ CoinCard component (price, symbol, market cap)
- │    └─ Modal to see more crypto info
- └─ Top 10 Biggest Change (user-selected period)
-      └─ CoinCard component (price, change %, maybe chart sparkline)
-      └─ Modal to see more crypto info
-      
-Footer
- └─ Simple info / links / credits
+🔗 **Live Demo**  
+👉 **https://mollydj.github.io/crypto-app/**
 
- # To Do 
- ## Header
- [] - Display name of project
- [] - Currency Selector
-      [] - Create Buttons for user to select their desired currency
-      [] - Create a React context to store this value on change
-[] - Content Section #1: Top 20 By Market Cap
-      [] - Use CoinGecko, fetch the Top 20 cryptos by market cap
-      [] - Use Free Coinbase Websocket API to display live price changes. Fetch these changes every 2 minutes and display the last saved time to the user
-      [] - Make the current price a button which will open a modal
-            [] -  CoinDetails Component
-                  [] - Display the following informaton
-[] - Content Section #2: TBD
-[] - Footer
-      [] - Display 
+> ⚠️ **Work in Progress**  
+> This project is actively being developed. Features, UI, and architecture are evolving as I continue to iterate and improve the app.
 
+---
 
+## ✨ Features
 
-      
+- 📈 Real-time crypto price updates
+- 💾 LocalStorage caching with API fallback
+- 🔄 Smart data fetching using TanStack Query
+- 🎨 Custom Ant Design theme (old-school terminal aesthetic)
+- 🌍 Currency switching
+- ⚡ Fast builds with Vite
+- 🚀 Deployed on GitHub Pages
 
+---
 
-notes
+## 🧱 Tech Stack
 
-“To bypass browser CORS restrictions when fetching crypto data from CoinGecko, I implemented a lightweight Express backend with CORS enabled. The React frontend calls this proxy server, which fetches the latest market data and returns it as JSON. This ensures smooth live updates and avoids cross-origin issues.”
+- **React 19**
+- **Vite**
+- **TypeScript**
+- **@tanstack/react-query**
+- **Ant Design**
+- **Yarn**
+- **GitHub Pages**
+- **CoinGecko API**
+
+---
+
+## 🧪 Run Locally
+
+```bash
+git clone https://github.com/Mollydj/crypto-app.git
+cd crypto-app
+yarn install
+yarn dev
+```
+
+## 📝 Roadmap / TODOs
+
+### ✅ Completed
+
+- [x] Project setup with Vite + React 19  
+- [x] CoinGecko API integration  
+- [x] LocalStorage caching with fallback on API failure  
+- [x] Currency switcher  
+- [x] Custom Ant Design theme  
+- [x] GitHub Pages deployment  
+
+### 🚧 In Progress
+
+- [ ] Detailed crypto view with interactive charts  
+- [ ] Live updates via WebSocket  
+- [ ] Improved error & loading states  
+- [ ] Performance optimizations (code splitting)  
+- [ ] Better mobile responsiveness  
+
+### 🔮 Planned
+
+- [ ] Favorites / watchlist  
+- [ ] Search & filtering  
+- [ ] Accessibility improvements  
+- [ ] Unit & integration tests  
+- [ ] Dark/light theme toggle  
