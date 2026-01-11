@@ -1,27 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.less'
+// import React from "react";
+import { useEffect, useState } from "react";
+import "./App.less";
+import Card from "./Components/Card/Card";
+import { useCryptoList } from "./Hooks/useCryptoList";
+import Button from "./Components/Button/Button";
+import { useCurrency } from "./Utils/CurrencyContext.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { currency, setCurrency } = useCurrency();
+  const { data: coins, isLoading, isError, error } = useCryptoList(currency);
 
+  useEffect(() => {
+    console.log("Selected currency:", currency[0]);
+  }, [currency]);
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div id="header">
+        <h1>Crypto-graphy</h1>
+        <div className="select-currency">
+          <Button onClick={() => setCurrency("USD")}>USD</Button>
+          <Button onClick={() => setCurrency("EUR")}>EUR</Button>
+          <Button onClick={() => setCurrency("GBP")}>GBP</Button>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div id="content">
+        <div className="content-section">
+        <h2>Top 20 by Market Cap</h2>
+          <Card coins={coins} currency={currency} />
+        </div>
+        <h2>Next thing</h2>
+        {/* <div className="card-container">
+          <Card coins={[]} />
+        </div> */}
+      </div>
+      <div id="footer">
+        <div>
+          <p>
+            Designed and coded by <Button>MollyDJ</Button>
+          </p>
+        </div>
+        <div className="resources">
+          <Button onClick={"https://www.coingecko.com/"}>API</Button>
+          <Button onClick={"https://www.coingecko.com/"}>LinkedIn</Button>
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

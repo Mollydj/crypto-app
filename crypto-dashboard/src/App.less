@@ -1,8 +1,102 @@
+// import './variables.less';
+@primary-color: #00ff00;
+@secondary-color: #1c1c1c;
+@background-color: #242424;
+@box-padding-s: 8px;
+@box-padding-m: 12px;
+@box-padding-l: 16px;
+
+body {
+  background-color: @background-color;
+  font-family: "VT323", "Share Tech Mono", monospace;
+  font-weight: bold;
+  cursor: crosshair;
+  // scroll-padding: @box-padding-l;
+
+  a {
+    color: @secondary-color;
+  }
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: salmon;
+  // background-color: @background-color;
   text-align: center;
+}
+
+#header {
+  // display: block;
+  // background-color: #ff69b4;
+  color: @primary-color;
+  margin-bottom: 35px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  // padding: @box-padding-s;
+  text-transform: uppercase;
+  color: @primary-color;
+}
+
+#content {
+  div.content-section {
+    background-color: #1a1a1a;
+    padding: @box-padding-l;
+    h2 {
+      margin-top: 0px;
+    }
+  }
+  .card-container {
+    overflow: auto;
+    scroll-behavior: smooth;
+    display: flex;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  div.crypto-card {
+    margin-right: @box-padding-m;
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+
+    flex: 0 0 200px;
+  }
+
+  p {
+    color: @primary-color;
+  }
+}
+
+#footer {
+  background-color: steelblue;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: @box-padding-l;
+  justify-content: space-evenly;
+  padding: @box-padding-m;
+  background-color: @primary-color;
+
+  .resources {
+    flex: 0.4;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding: @box-padding-l;
+  }
 }
 
 .logo {
