@@ -13,12 +13,7 @@ import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency.tsx
 function App() {
   const { currency } = useCurrency();
   const [enableLivePrices, setEnableLivePrices] = useState<boolean>(false);
-  const {
-    data: coins = [],
-    isLoading,
-    isError,
-    error,
-  } = useCryptoList() as {
+  const { data: coins = [], isLoading } = useCryptoList() as {
     data: Coin[];
     isLoading: boolean;
     isError: boolean;
@@ -26,7 +21,8 @@ function App() {
   };
   const coinsRef = useRef(coins); // store the latest coins
   const currencyRef = useRef(currency); // store the latest currency
-  const cachedCoins = JSON.parse(localStorage.getItem("cryptoData")).data;
+  const cachedItem = localStorage.getItem("cryptoData");
+  const cachedCoins = cachedItem ? JSON.parse(cachedItem).data : null;
   const wsRef = useRef<WebSocket | null>(null);
   const [intervalText, setIntervalText] = useState<string>("refreshing...");
   const [livePrices, setLivePrices] = useState<Record<string, string>>({});
@@ -177,10 +173,19 @@ function App() {
           </p>
         </div>
         <div className="resources">
-          <CryptoButton onClick={"https://www.coingecko.com/"}>
+          <CryptoButton
+            onClick={() => window.open("https://www.coingecko.com/", "_blank")}
+          >
             API
           </CryptoButton>
-          <CryptoButton onClick={"https://www.coingecko.com/"}>
+          <CryptoButton
+            onClick={() =>
+              window.open(
+                "https://www.linkedin.com/in/mollydeangelisjimenez/",
+                "_blank"
+              )
+            }
+          >
             LinkedIn
           </CryptoButton>
         </div>

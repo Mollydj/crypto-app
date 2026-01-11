@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 const primaryColor = "#00ff00";
 const backgroundColor = "#242424";
 
-const customButtonTheme = {
+const customTheme = {
   components: {
     Layout: {
       bodyBg: backgroundColor,
@@ -52,26 +52,23 @@ const customButtonTheme = {
 };
 
 const rootElement = document.getElementById("root");
-
 if (!rootElement) throw new Error("Root element not found");
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <CurrencyProvider>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
+// Cast JSX to ReactNode for TS safety
+const appNode = (
+  <CurrencyProvider>
+    <QueryClientProvider client={queryClient}>
+      <ConfigProvider
+        theme={{
+          algorithm: theme.darkAlgorithm,
+          token: { fontFamily: "VT323, monospace" },
+          components: customTheme.components,
+        }}
+      >
+        <App />
+      </ConfigProvider>
+    </QueryClientProvider>
+  </CurrencyProvider>
+) as React.ReactNode;
 
-            token: {
-              fontFamily: "VT323, monospace",
-            },
-            components: customButtonTheme.components,
-          }}
-        >
-          <App />
-        </ConfigProvider>
-      </QueryClientProvider>
-    </CurrencyProvider>
-  </React.StrictMode>
-);
+ReactDOM.createRoot(rootElement).render(<React.StrictMode>{appNode}</React.StrictMode>);

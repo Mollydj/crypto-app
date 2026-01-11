@@ -1,11 +1,9 @@
 import React from "react";
 import "./Card.less";
-import { formatLargeNumber } from "../../Utils/formatLargeNumbers";
 import { useCurrency } from "../../Utils/CurrencyContext";
 import { Avatar, Card, Flex, Skeleton } from "antd";
 import CryptoButton from "../Button/Button";
-
-interface Coin {}
+import type { Coin } from "../../Hooks/useCryptoList";
 
 interface CardProps {
   coins: Coin[];
@@ -26,12 +24,6 @@ const CryptoCard: React.FC<CardProps> = ({
       {coins.map((coin: any) => {
         const pair = `${coin.symbol.toUpperCase()}-${currency}`;
         const priceNumber = Number(livePrices[pair] ?? coin.current_price);
-        const displayPrice = priceNumber.toLocaleString("en-US", {
-          style: "currency",
-          currency: currency,
-          minimumFractionDigits: 3,
-          maximumFractionDigits: 3,
-        });
         return (
           <Skeleton
             active={!coins || loading}
@@ -48,7 +40,7 @@ const CryptoCard: React.FC<CardProps> = ({
                   {coin.symbol.toUpperCase()})
                 </span>
                 <CryptoButton className="card-button">
-                  {displayPrice.toLocaleString("en-US", {
+                  {priceNumber.toLocaleString("en-US", {
                     style: "currency",
                     currency: currency,
                   })}
