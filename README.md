@@ -42,3 +42,31 @@ git clone https://github.com/Mollydj/crypto-app.git
 cd crypto-app
 yarn install
 yarn dev
+```
+
+## 📝 Roadmap / TODOs
+
+### ✅ Completed
+
+- [x] Project setup with Vite + React 19  
+- [x] CoinGecko API integration  
+- [x] LocalStorage caching with fallback on API failure  
+- [x] Currency switcher  
+- [x] Custom Ant Design theme  
+- [x] GitHub Pages deployment  
+
+### 🚧 In Progress
+
+- [ ] Detailed crypto view with interactive charts  
+- [ ] Live updates via WebSocket  
+- [ ] Improved error & loading states  
+- [ ] Performance optimizations (code splitting)  
+- [ ] Better mobile responsiveness  
+
+### 🔮 Planned
+
+- [ ] Favorites / watchlist  
+- [ ] Search & filtering  
+- [ ] Accessibility improvements  
+- [ ] Unit & integration tests  
+- [ ] Dark/light theme toggle  
