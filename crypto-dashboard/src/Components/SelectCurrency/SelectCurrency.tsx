@@ -12,13 +12,13 @@ const SelectCryptoCurrency: React.FC = () => {
   const currencyOptions = ["USD", "EUR", "GBP"];
 
   const openMessage = (curr: string) => {
-    messageApi.open({
+    message.open({
       key,
       type: "loading",
       content: "Changing Currency...",
     });
     setTimeout(() => {
-      messageApi.open({
+      message.success({
         key,
         type: "success",
         content: `${curr} Loaded!`,

@@ -18,6 +18,15 @@ const customButtonTheme = {
       footerBg: primaryColor,
       colorText: primaryColor,
     },
+    Switch: {
+      colorPrimary: primaryColor,
+      colorPrimaryHover: primaryColor,
+      colorBgContainer: backgroundColor,
+      colorBorder: primaryColor,
+      colorBgHover: primaryColor,
+      colorBgActive: primaryColor,
+      colorTextLightSolid: backgroundColor,
+    },
     Button: {
       colorText: backgroundColor,
       colorPrimary: primaryColor,

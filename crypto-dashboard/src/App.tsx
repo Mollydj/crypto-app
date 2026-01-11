@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.less";
 import { useCryptoList, type Coin } from "./Hooks/useCryptoList";
 import { useCurrency } from "./Utils/CurrencyContext.tsx";
-import { Layout } from "antd";
+import { Layout, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
@@ -18,15 +18,23 @@ function App() {
     isLoading,
     isError,
     error,
-  } = useCryptoList() as { data: Coin[]; isLoading: boolean; isError: boolean; error: any };
+  } = useCryptoList() as {
+    data: Coin[];
+    isLoading: boolean;
+    isError: boolean;
+    error: any;
+  };
   const coinsRef = useRef(coins); // store the latest coins
   const currencyRef = useRef(currency); // store the latest currency
-
+  const cachedCoins = JSON.parse(localStorage.getItem("cryptoData")).data;
   const wsRef = useRef<WebSocket | null>(null);
   const [intervalText, setIntervalText] = useState<string>("refreshing...");
   const [livePrices, setLivePrices] = useState<Record<string, string>>({});
 
-  console.log("COINS IN APP:", coins);
+  useEffect(() => {
+    coinsRef.current = coins;
+  }, [coins]);
+
   useEffect(() => {
     coinsRef.current = coins;
   }, [coins]);
@@ -39,10 +47,8 @@ function App() {
     if (!coins || coins.length === 0) return;
 
     const products = coins.map(
-      (coin) => `${coin.symbol.toUpperCase()}-${currency.toUpperCase()}`
+      (coin) => `${coin.id.toUpperCase()}-${currency.toUpperCase()}`
     );
-
-    // --- WebSocket ---
     const ws = new WebSocket("wss://advanced-trade-ws.coinbase.com");
     wsRef.current = ws;
 
@@ -80,39 +86,36 @@ function App() {
   }, [coins, currency]);
 
   useEffect(() => {
+    if (!enableLivePrices) {
+      setIntervalText("Using Cached Data");
+      return;
+    }
+
     const refreshLivePrices = async () => {
       const coins = coinsRef.current;
       const curr = currencyRef.current;
-
-      if (!coins || coins.length === 0) return;
-
       try {
-        const ids = coins.map((coin) => coin.symbol).join(",");
+        const ids = coins.map((coin) => coin.id).join(",");
         const res = await fetch(
           `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${curr.toLowerCase()}`
         );
         const data = await res.json();
-        console.log('RESPONSE DATA>>:', res);
-        setIntervalText(
-              'REFRESHING...'
-            );
+        setIntervalText("REFRESHING...");
         setLivePrices((prev) => {
           const updated: Record<string, string> = { ...prev };
           coins.forEach((coin) => {
-            console.log("Refreshing price for coin:", coin.symbol, data);
-            const pair = `${coin.symbol.toUpperCase()}-${curr.toUpperCase()}`;
+            console.log("Refreshing price for coin:", coin.id, data);
+            const pair = `${coin.id.toUpperCase()}-${curr.toUpperCase()}`;
             if (
-              data[coin.symbol] &&
-              data[coin.symbol][curr.toLowerCase()] !== undefined
+              data[coin.id] &&
+              data[coin.id][curr.toLowerCase()] !== undefined
             ) {
-              updated[pair] = data[coin.symbol][curr.toLowerCase()].toString();
+              updated[pair] = data[coin.id][curr.toLowerCase()].toString();
             }
           });
           return updated;
         });
-        setIntervalText(
-              `Last refreshed at ${new Date().toLocaleTimeString()}`
-            )
+        setIntervalText(`Last refreshed at ${new Date().toLocaleTimeString()}`);
 
         console.log(
           "Live prices refreshed at",
@@ -123,30 +126,37 @@ function App() {
         console.error("Error refreshing live prices:", err);
       }
     };
-
-    // Run immediately on mount
     refreshLivePrices();
-
-    // Run every 20 seconds
     const interval = setInterval(refreshLivePrices, 120000);
-
-    // Cleanup on unmount
     return () => clearInterval(interval);
-  }, []);
+  }, [enableLivePrices]);
 
   return (
     <Layout>
       <Header>
+        <Switch
+          checked={enableLivePrices}
+          onChange={(checked) => {
+            setEnableLivePrices(checked);
+          }}
+          checkedChildren="Live Updates On"
+          unCheckedChildren="Live Updates On"
+        />
         <h1>Crypto-graphy</h1>
+        <p>test</p>
       </Header>
       <Content>
         <SelectCryptoCurrency />
         <div className="content-section">
-          <h2>Top 20 by Market Cap</h2>
-          {intervalText && <p className="refresh-interval">{intervalText}</p>}
+          <div className="content-section-title">
+            <h2>Top 20 by Market Cap</h2>
+            {intervalText && (
+              <span className="refresh-interval">{intervalText}</span>
+            )}
+          </div>
           <CryptoCard
             loading={isLoading}
-            coins={coins}
+            coins={coins || cachedCoins}
             currency={currency}
             livePrices={livePrices}
           />
@@ -159,12 +169,20 @@ function App() {
       <Footer>
         <div>
           <p>
-            Designed and coded by <CryptoButton variant="dashed">Molly DJ<GithubFilled /></CryptoButton>
+            Designed and coded by{" "}
+            <CryptoButton variant="dashed">
+              Molly DJ
+              <GithubFilled />
+            </CryptoButton>
           </p>
         </div>
         <div className="resources">
-          <CryptoButton onClick={"https://www.coingecko.com/"}>API</CryptoButton>
-          <CryptoButton onClick={"https://www.coingecko.com/"}>LinkedIn</CryptoButton>
+          <CryptoButton onClick={"https://www.coingecko.com/"}>
+            API
+          </CryptoButton>
+          <CryptoButton onClick={"https://www.coingecko.com/"}>
+            LinkedIn
+          </CryptoButton>
         </div>
       </Footer>
     </Layout>
