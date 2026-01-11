@@ -53,12 +53,13 @@ yarn dev
 - [x] LocalStorage caching with fallback on API failure  
 - [x] Currency switcher  
 - [x] Custom Ant Design theme  
-- [x] GitHub Pages deployment  
+- [x] GitHub Pages deployment
+- [x] Live updates via WebSocket   
 
 ### 🚧 In Progress
 
+- [ ] Toggle on/off live updates
 - [ ] Detailed crypto view with interactive charts  
-- [ ] Live updates via WebSocket  
 - [ ] Improved error & loading states  
 - [ ] Performance optimizations (code splitting)  
 - [ ] Better mobile responsiveness  
