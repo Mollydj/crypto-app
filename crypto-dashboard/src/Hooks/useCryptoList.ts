@@ -1,32 +1,48 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useQuery } from "@tanstack/react-query";
+import api from "../Utils/handleEvents";
+import { useCurrency } from "../Utils/CurrencyContext";
+import { message } from "antd";
 
-type Coin = {
+export type Coin = {
+  id: string;
   symbol: string;
   name: string;
-  price: number;
+  current_price: number;
   market_cap: number;
-  icon: string;
+  market_cap_rank: number;
+  image: string;
+  price_change_24h: number;
+  price_change_percentage_24h: number;
+  last_updated: string;
 };
 
-const API_KEY = import.meta.env.VITE_COINGECKO_API_KEY_FREE;
+export const useCryptoList = () => {
+  const { currency } = useCurrency();
+  const API_URL = `http://localhost:3001/api/crypto?currency=${currency.toLowerCase()}`;
 
-export const useCryptoList = (currency: string) => {
-  const API_URL = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}&order=market_cap_desc&per_page=20&page=1&x_cg_demo_api_key=${API_KEY}`;
-  console.log('Fetching data from URL:', API_URL);
   return useQuery<Coin[], Error>({
-    queryKey: ['cryptoList', currency],
+    queryKey: ["cryptoList", currency],
     queryFn: async () => {
-      const { data } = await axios.get(API_URL, {
-        headers: {
-          'accept': '*/*',
-          'Authorization': `Bearer ${API_KEY}`,
-        },
-      });
-      console.log('API response data:', data);
-      return data;
+      try {
+        const { data } = await api.get(API_URL);
+        return data; // ✅ return the array of coins only
+      } catch (err: any) {
+        throw err; // propagate to React Query so isError works
+      }
     },
     staleTime: 1000 * 60,
+    refetchOnWindowFocus: false,
+    onSuccess: () => {
+      message.success(`Crypto data fetched successfully in ${currency} 🎉`);
+    },
+    onError: (err: any) => {
+      if (err.response?.status === 429) {
+        message.warning("You’ve reached the API limit. Please wait a bit ⏳");
+      } else if (err.response?.status === 500) {
+        message.warning("Internal Server Error ⏳");
+      } else {
+        message.error("Failed to fetch crypto data ❌");
+      }
+    },
   });
 };
-
