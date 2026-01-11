@@ -5,8 +5,6 @@ import CryptoButton from "../Button/Button";
 
 const SelectCryptoCurrency: React.FC = () => {
   const { setCurrency } = useCurrency();
-  const [messageApi, contextHolder] = message.useMessage();
-
   const key = "updatable";
 
   const currencyOptions = ["USD", "EUR", "GBP"];
