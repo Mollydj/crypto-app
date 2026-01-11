@@ -1,16 +1,67 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import App from "./App";
+import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import App from "./App.tsx";
-import { CurrencyProvider } from "./Utils/CurrencyContext.tsx";
+import { CurrencyProvider } from "./Utils/CurrencyContext";
 
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+// Custom colors
+const primaryColor = "#00ff00";
+const backgroundColor = "#242424";
+
+const customButtonTheme = {
+  components: {
+    Layout: {
+      bodyBg: backgroundColor,
+      footerBg: primaryColor,
+      colorText: primaryColor,
+    },
+    Button: {
+      colorText: backgroundColor,
+      colorPrimary: primaryColor,
+      colorBgContainer: primaryColor,
+      defaultHoverColor: backgroundColor,
+      defaultHoverBorderColor: primaryColor,
+      defaultHoverBg: backgroundColor,
+      defaultActiveBorderColor: backgroundColor,
+      defaultActiveColor: backgroundColor,
+      colorLink: primaryColor,
+      colorLinkActive: primaryColor,
+      colorLinkHover: primaryColor,
+      colorPrimaryActive: primaryColor,
+      colorPrimaryBg: primaryColor,
+      colorTextLightSolid: backgroundColor,
+      colorPrimaryHover: backgroundColor,
+      colorPrimaryBorder: primaryColor,
+      defaultBorderColor: backgroundColor,
+      ghostBg: primaryColor,
+      defaultGhostBorderColor: primaryColor,
+    },
+  },
+};
+
+const rootElement = document.getElementById("root");
+
+if (!rootElement) throw new Error("Root element not found");
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <CurrencyProvider>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+
+            token: {
+              fontFamily: "VT323, monospace",
+            },
+            components: customButtonTheme.components,
+          }}
+        >
+          <App />
+        </ConfigProvider>
       </QueryClientProvider>
     </CurrencyProvider>
   </React.StrictMode>

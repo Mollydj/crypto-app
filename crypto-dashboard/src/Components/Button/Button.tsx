@@ -1,21 +1,12 @@
 import React from "react";
-import "./Button.less";
-import { useCurrency } from "../../Utils/CurrencyContext";
+import { Button, type ButtonProps } from "antd";
 
-interface Coin {}
-
-interface CardProps {
-  children: string;
-  onClick: () => void;
-}
-
-const Button: React.FC<CardProps> = ({ children, onClick }) => {
-
+const CryptoButton: React.FC<ButtonProps> = ({ children, ...restProps }) => {
   return (
-    <button onClick={onClick} className="crypto-button">
+    <Button {...restProps} className="crypto-button">
       {children}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default CryptoButton;
