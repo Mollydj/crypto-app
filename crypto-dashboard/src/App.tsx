@@ -19,8 +19,8 @@ function App() {
     isError: boolean;
     error: any;
   };
-  const coinsRef = useRef(coins); // store the latest coins
-  const currencyRef = useRef(currency); // store the latest currency
+  const coinsRef = useRef(coins);
+  const currencyRef = useRef(currency);
   const cachedItem = localStorage.getItem("cryptoData");
   const cachedCoins = cachedItem ? JSON.parse(cachedItem).data : null;
   const wsRef = useRef<WebSocket | null>(null);
@@ -136,7 +136,7 @@ function App() {
             setEnableLivePrices(checked);
           }}
           checkedChildren="Live Updates On"
-          unCheckedChildren="Live Updates On"
+          unCheckedChildren="Live Updates Off"
         />
         <h1>Crypto-graphy</h1>
         <p>test</p>
