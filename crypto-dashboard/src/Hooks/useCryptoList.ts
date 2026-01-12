@@ -14,6 +14,7 @@ export type Coin = {
   price_change_24h: number;
   price_change_percentage_24h: number;
   last_updated: string;
+  market_cap_change_percentage_24h: number;
 };
 
 export const useCryptoList = () => {

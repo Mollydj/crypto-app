@@ -52,8 +52,9 @@ const CryptoCard: React.FC<CardProps> = ({
                       : "positive"
                   }
                 >
+                  
                   {coin.market_cap_change_percentage_24h > 0 ? "+" : ""}
-                  {coin.market_cap_change_percentage_24h.toFixed(2)}%
+                  {coin.market_cap_change_percentage_24h ? `${coin.market_cap_change_percentage_24h.toFixed(2)}%` : "No Market Data"}
                   <br />
                 </span>
               </Card>
