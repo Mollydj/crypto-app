@@ -58,16 +58,17 @@ yarn dev
 - [x]  Project setup with Vite + React 19
 - [x]  Custom Ant Design theme
 - [x]  GitHub Pages deployment
+- [x]  Live updates via WebSocket
+- [x]  Currency switcher
+- [x]  Coinbase API integration
 
 **🚧 In Progress**
 
-**State/Data Management**
-
-- [ ]  Live updates via WebSocket
+- [ ]  Toggle on/off live updates
 - [ ]  LocalStorage caching with fallback on API failure
 - [ ]  Dashboard
     - [ ]  Top 20 by 24hour market
-        - [ ]  Coin details page with interactive chartsjs
+        - [ ]  Coin details page via side panel with interactive chartsjs
 
 **🔮 Planned**
 
@@ -76,10 +77,7 @@ yarn dev
 - [ ]  Accessibility improvements
 - [ ]  Unit & integration tests
 - [ ]  Dark/light theme toggle
-- [ ]  Currency switcher
-- [ ]  
-- [ ]  Coinbase API integration
-- [ ]  Toggle on/off live updates
 - [ ]  Improved error & loading states
+- [ ]  Improved typescript
 - [ ]  Performance optimizations (code splitting)
 - [ ]  Better mobile responsiveness
