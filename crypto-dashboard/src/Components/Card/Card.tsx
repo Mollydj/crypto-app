@@ -1,37 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Card.less";
 import { useCurrency } from "../../Utils/CurrencyContext";
 import { Avatar, Card, Flex, Skeleton } from "antd";
 import CryptoButton from "../Button/Button";
 import type { Coin } from "../../Hooks/useCryptoList";
 
+
 interface CardProps {
   coins: Coin[];
   currency: string;
   loading: boolean;
-  livePrices: Record<string, string>;
 }
 
-const CryptoCard: React.FC<CardProps> = ({
-  coins = [],
-  livePrices,
-  loading,
-}) => {
+const CryptoCard: React.FC<CardProps> = ({ coins = [], loading }) => {
   const { currency } = useCurrency();
-
   return (
     <div className="card-container">
       {coins.map((coin: any) => {
         const pair = `${coin.symbol.toUpperCase()}-${currency}`;
-        const priceNumber = Number(livePrices[pair] ?? coin.current_price);
+        // console.log("COIN>>", pair, coin.current_price, new Date().toISOString());
         return (
-          <Skeleton
-            active={!coins || loading}
-            loading={!coins || loading}
-            key={coin.id}
-          >
-            <Flex vertical>
-              <Card key={coin.id} className="crypto-card">
+          // <Skeleton
+          //   active={!coins || loading}
+          //   loading={!coins || loading}
+          //   key={coin.id}
+          // >
+            <Flex vertical key={coin.id}>
+              <Card  className="crypto-card">
                 <Avatar shape="square" src={coin.image}>
                   {coin.symbol?.toUpperCase()?.[0]}
                 </Avatar>
@@ -40,11 +35,12 @@ const CryptoCard: React.FC<CardProps> = ({
                   {coin.symbol.toUpperCase()})
                 </span>
                 <CryptoButton className="card-button">
-                  {priceNumber.toLocaleString("en-US", {
+                  {coin.current_price.toLocaleString("en-US", {
                     style: "currency",
                     currency: currency,
                   })}
                 </CryptoButton>
+                  {coin.current_price}
                 <span
                   className={
                     coin.market_cap_change_percentage_24h < 0
@@ -52,14 +48,15 @@ const CryptoCard: React.FC<CardProps> = ({
                       : "positive"
                   }
                 >
-                  
                   {coin.market_cap_change_percentage_24h > 0 ? "+" : ""}
-                  {coin.market_cap_change_percentage_24h ? `${coin.market_cap_change_percentage_24h.toFixed(2)}%` : "No Market Data"}
+                  {coin.market_cap_change_percentage_24h
+                    ? `${coin.market_cap_change_percentage_24h.toFixed(2)}%`
+                    : "No Market Data"}
                   <br />
                 </span>
               </Card>
             </Flex>
-          </Skeleton>
+          // </Skeleton>
         );
       })}
     </div>

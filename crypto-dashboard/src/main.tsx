@@ -4,7 +4,6 @@ import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CurrencyProvider } from "./Utils/CurrencyContext";
-
 const queryClient = new QueryClient();
 
 // Custom colors
