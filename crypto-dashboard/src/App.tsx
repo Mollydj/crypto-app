@@ -1,131 +1,88 @@
 // import React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import "./App.less";
 import { useCryptoList, type Coin } from "./Hooks/useCryptoList";
 import { useCurrency } from "./Utils/CurrencyContext.tsx";
-import { Layout, Switch } from "antd";
+import { CryptoProvider } from "./Utils/TickerContext.tsx";
+import { Layout, Skeleton, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
 import { GithubFilled } from "@ant-design/icons";
 import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency.tsx";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts.ts";
+import api from "./Utils/handleEvents.ts";
+import type { CoinbaseProduct } from "./types.ts";
 
 function App() {
+  const queryClient = useQueryClient();
   const { currency } = useCurrency();
-  const [enableLivePrices, setEnableLivePrices] = useState<boolean>(false);
-  const { data: coins = [], isLoading } = useCryptoList() as {
-    data: Coin[];
-    isLoading: boolean;
-    isError: boolean;
-    error: any;
-  };
+  // const { currency } = useCurrency();
+  const [enableLivePrices, setEnableLivePrices] = useState<boolean>(true);
+  // const { data: coins = [], isLoading } = useCoinbaseProducts();
+  const { data: coins = [], isLoading } = useCoinbaseProducts();
+
+  // console.log('coins>>', coins);
+
   const coinsRef = useRef(coins);
   const currencyRef = useRef(currency);
-  const cachedItem = localStorage.getItem("cryptoData");
-  const cachedCoins = cachedItem ? JSON.parse(cachedItem).data : null;
-  const wsRef = useRef<WebSocket | null>(null);
   const [intervalText, setIntervalText] = useState<string>("refreshing...");
-  const [livePrices, setLivePrices] = useState<Record<string, string>>({});
+  // const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket(
+  //   "wss://ws-feed.exchange.coinbase.com"
+  // );
+  
+  if (isLoading || !coins) return <p>loading...</p>;
+  console.log('coins>>', coins);
+  const productIds = coins.map((item: CoinbaseProduct) => item.alias);
+  console.log("productIds>>", productIds);
 
-  useEffect(() => {
-    coinsRef.current = coins;
-  }, [coins]);
+  // useEffect(() => {
+  //   if (
+  //     readyState === ReadyState.OPEN &&
+  //     enableLivePrices &&
+  //     productIds.length
+  //   ) {
+  //     sendJsonMessage({
+  //       type: "subscribe",
+  //       product_ids: productIds,
+  //       channels: ["ticker_batch"],
+  //     });
+  //   }
+  // }, [readyState, enableLivePrices, coins]);
 
-  useEffect(() => {
-    coinsRef.current = coins;
-  }, [coins]);
+  // useEffect(() => {
+  //   if (!lastJsonMessage) return;
 
-  useEffect(() => {
-    currencyRef.current = currency;
-  }, [currency]);
+  //   if (lastJsonMessage.type === "ticker") {
+  //     const { product_id, price, open_24h, volume_24h } = lastJsonMessage;
+  //     const [symbol] = product_id.split("-");
 
-  useEffect(() => {
-    if (!coins || coins.length === 0) return;
+  //     queryClient.setQueryData<CoinbaseProduct[]>(
+  //       ["cryptoList", currency],
+  //       (oldCoins = []) =>
+  //         oldCoins.map((coin) =>
+  //           coin.base_display_symbol.toUpperCase() === symbol
+  //             ? {
+  //                 ...coin,
+  //                 price,
+  //                 open_24h,
+  //                 volume_24h,
+  //               }
+  //             : coin
+  //         )
+  //     );
+  //   }
+  // }, [lastJsonMessage, enableLivePrices, queryClient, coins]);
 
-    const products = coins.map(
-      (coin) => `${coin.id.toUpperCase()}-${currency.toUpperCase()}`
-    );
-    const ws = new WebSocket("wss://advanced-trade-ws.coinbase.com");
-    wsRef.current = ws;
+  // useEffect(() => {
+  //   coinsRef.current = coins;
+  // }, [coins]);
 
-    ws.onopen = () => {
-      ws.send(
-        JSON.stringify({
-          type: "subscribe",
-          channel: "ticker",
-          product_ids: products,
-        })
-      );
-      console.log("Subscribed to WS products:", products);
-    };
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.channel === "ticker" && data.events) {
-        data.events.forEach((evt: any) => {
-          if (evt.type === "update" && evt.tickers) {
-            evt.tickers.forEach((ticker: any) => {
-              setLivePrices((prev) => ({
-                ...prev,
-                [ticker.product_id]: ticker.price,
-              }));
-            });
-          }
-        });
-      }
-    };
-
-    ws.onerror = console.error;
-    return () => {
-      ws.close();
-    };
-  }, [coins, currency]);
-
-  useEffect(() => {
-    if (!enableLivePrices) {
-      setIntervalText("Using Cached Data");
-      return;
-    }
-
-    const refreshLivePrices = async () => {
-      const coins = coinsRef.current;
-      const curr = currencyRef.current;
-      try {
-        const ids = coins.map((coin) => coin.id).join(",");
-        const res = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${curr.toLowerCase()}`
-        );
-        const data = await res.json();
-        setIntervalText("REFRESHING...");
-        setLivePrices((prev) => {
-          const updated: Record<string, string> = { ...prev };
-          coins.forEach((coin) => {
-            console.log("Refreshing price for coin:", coin.id, data);
-            const pair = `${coin.id.toUpperCase()}-${curr.toUpperCase()}`;
-            if (
-              data[coin.id] &&
-              data[coin.id][curr.toLowerCase()] !== undefined
-            ) {
-              updated[pair] = data[coin.id][curr.toLowerCase()].toString();
-            }
-          });
-          return updated;
-        });
-        setIntervalText(`Last refreshed at ${new Date().toLocaleTimeString()}`);
-
-        console.log(
-          "Live prices refreshed at",
-          new Date().toLocaleTimeString(),
-          livePrices
-        );
-      } catch (err) {
-        console.error("Error refreshing live prices:", err);
-      }
-    };
-    refreshLivePrices();
-    const interval = setInterval(refreshLivePrices, 120000);
-    return () => clearInterval(interval);
-  }, [enableLivePrices]);
+  // useEffect(() => {
+  //   currencyRef.current = currency;
+  // }, [currency]);
 
   return (
     <Layout>
@@ -150,17 +107,13 @@ function App() {
               <span className="refresh-interval">{intervalText}</span>
             )}
           </div>
-          <CryptoCard
-            loading={isLoading}
-            coins={coins || cachedCoins}
-            currency={currency}
-            livePrices={livePrices}
-          />
+          {/* <Skeleton active={isLoading} paragraph> */}
+          <CryptoProvider coinIds={productIds} enableLivePrices={enableLivePrices} coins={coins}>
+            <CryptoCard coins={coins} currency={currency} />
+          </CryptoProvider>
+          {/* </Skeleton> */}
         </div>
         <h2>Next thing</h2>
-        {/* <div className="content-section">
-          <Card coins={[]} currency={currency} livePrices={livePrices} />
-        </div> */}
       </Content>
       <Footer>
         <div>

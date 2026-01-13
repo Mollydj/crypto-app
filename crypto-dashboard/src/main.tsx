@@ -4,7 +4,6 @@ import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CurrencyProvider } from "./Utils/CurrencyContext";
-
 const queryClient = new QueryClient();
 
 // Custom colors
@@ -71,4 +70,6 @@ const appNode = (
   </CurrencyProvider>
 ) as React.ReactNode;
 
-ReactDOM.createRoot(rootElement).render(<React.StrictMode>{appNode}</React.StrictMode>);
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>{appNode}</React.StrictMode>
+);

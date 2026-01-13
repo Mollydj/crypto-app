@@ -19,26 +19,26 @@ export type Coin = {
 
 export const useCryptoList = () => {
   const { currency } = useCurrency();
-  const API_URL = `http://localhost:3001/api/crypto?currency=${currency.toLowerCase()}`;
+  const API_URL = `http://localhost:3001/api/crypto`;
 
   const fetchCrypto = async (): Promise<Coin[]> => {
     try {
       const { data } = await api.get<Coin[]>(API_URL);
-      localStorage.setItem(
-        "cryptoData",
-        JSON.stringify({ data, timestamp: Date.now() })
-      );
+      // localStorage.setItem(
+      //   "cryptoData",
+      //   JSON.stringify({ data, timestamp: Date.now() })
+      // );
 
-      console.log("Crypto data cached successfully");
-      message.success("Crypto data cached successfully 🎉");
+      // console.log("Crypto data cached successfully");
+      // message.success("Crypto data cached successfully 🎉");
       return data;
     } catch (err: any) {
       console.error("API fetch failed:", err);
       const cached = localStorage.getItem("cryptoData");
       if (cached) {
         const parsed = JSON.parse(cached);
-        console.log("Using cached crypto data due to API error");
-        message.warning("Using cached crypto data due to API error ⚠️");
+        // console.log("Using cached crypto data due to API error");
+        // message.warning("Using cached crypto data due to API error ⚠️");
         return parsed.data;
       }
       message.error("Failed to fetch crypto data and no cache available ❌");

@@ -1,34 +1,67 @@
-// server.js / api/prices
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import api from "./src/Utils/handleEvents.ts";
+import axios from "axios";
+import { generateJWT } from "./generateTokenPRIVATE.ts";
 
 const app = express();
-
 app.use(cors());
 
-app.get("/api/crypto", async (req, res) => {
-  const { currency = "EUR" } = req.query;
+app.get("/api/crypto", async (_req, res) => {
+  const { currency = "EUR" } = _req.query;
   try {
-    const { data } = await api.get(
-      `https://api.coingecko.com/api/v3/coins/markets`,
+    const token = generateJWT();
+
+    const coinbaseResponse = await axios.get(
+      "https://api.coinbase.com/api/v3/brokerage/market/products/?&products_sort_order=PRODUCTS_SORT_ORDER_VOLUME_24H_DESCENDING",
       {
-        params: {
-          vs_currency: currency.toUpperCase(),
-          order: "market_cap_desc",
-          per_page: 20,
-          page: 1,
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-    res.json(data);
-    console.log("Fetched crypto data successfully");
+
+    res.json(coinbaseResponse.data);
+    console.log("TOP 20 COINS SUCCESS");
   } catch (err) {
-    console.error(
-      "CoinGecko fetch error:",
-      err.response?.data || err.message || err
-    );
-    res.status(500).json({ error: "Failed to fetch crypto data" });
+    console.error("Coinbase error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Coinbase request failed" });
+  }
+});
+
+app.get("/api/cryptoImage", async (req, res) => {
+  const coinSymbol = req.query.coin?.toLowerCase() || "bitcoin";
+  const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
+  const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
+
+  try {
+    const response = await axios.get(apiUrl, {
+      params: {
+        localization: false,
+        tickers: false,
+        market_data: false,
+        community_data: false,
+        developer_data: false,
+        sparkline: false,
+      },
+      headers: {
+        "x-cg-pro-api-key": apiKey,
+      },
+    });
+
+    // Extract large image, fallback if missing
+    const coinImage = response.data?.image?.large;
+
+    res.json({ coin: coinSymbol, coinImage });
+  } catch (err) {
+    console.error("Error fetching coin image:", err.message || err);
+    // fallback even on error
+    res.json({
+      coin: coinSymbol,
+      coinImage: `https://cryptoicons.org/api/icon/${coinSymbol}/200`,
+    });
   }
 });
 

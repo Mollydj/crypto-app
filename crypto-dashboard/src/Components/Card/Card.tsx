@@ -1,60 +1,58 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Card.less";
 import { useCurrency } from "../../Utils/CurrencyContext";
-import { Avatar, Card, Flex, Skeleton } from "antd";
+import { Avatar, Card, Flex, Image, Skeleton } from "antd";
 import CryptoButton from "../Button/Button";
 import type { Coin } from "../../Hooks/useCryptoList";
+import type { CoinbaseProduct } from "../../types";
+import { useCoinImage } from "../../Hooks/useCoinGeckoImage";
+// import type { top20Coin } from "../../Hooks/useCoinbaseProducts";
+import { useTickerPrice } from "../../Utils/TickerContext";
 
 interface CardProps {
-  coins: Coin[];
+  coins: CoinbaseProduct;
   currency: string;
-  loading: boolean;
-  livePrices: Record<string, string>;
+  // loading: boolean;
 }
+// TO DO: CREATE ANOTHER ENDPOINT TO GET DATA BY COIN INSTEAD OF all coins on APP.TSX
 
-const CryptoCard: React.FC<CardProps> = ({
-  coins = [],
-  livePrices,
-  loading,
-}) => {
-  const { currency } = useCurrency();
+const CryptoCard: React.FC<CardProps> = ({ coins = [] }) => {
+  if (!coins) return;
 
   return (
     <div className="card-container">
-      {coins.map((coin: any) => {
-        const pair = `${coin.symbol.toUpperCase()}-${currency}`;
-        const priceNumber = Number(livePrices[pair] ?? coin.current_price);
+      {coins.map((coin: any, index) => {
+        if (!coin) return;
+        const price = useTickerPrice(coin.alias);
         return (
-          <Skeleton
-            active={!coins || loading}
-            loading={!coins || loading}
-            key={coin.id}
-          >
+          <Skeleton active={!coins} loading={!coins} key={coin.product_id}>
             <Flex vertical>
-              <Card key={coin.id} className="crypto-card">
-                <Avatar shape="square" src={coin.image}>
-                  {coin.symbol?.toUpperCase()?.[0]}
+              <Card className="crypto-card">
+                {(index + 1).toString()}
+                <Avatar shape="square" src={coin.product_id}>
+                  {/* <Skeleton avatar active={isLoading}>
+                    <Image
+                      src={imageUrl}
+                      alt={coin.base_display_symbol}
+                    />
+                  </Skeleton> */}
+                  {coin.base_display_symbol}
                 </Avatar>
-                <span>
-                  {coin.market_cap_rank}. {coin.name} (
-                  {coin.symbol.toUpperCase()})
-                </span>
+
                 <CryptoButton className="card-button">
-                  {priceNumber.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: currency,
-                  })}
+                  {price || coin.price}
                 </CryptoButton>
                 <span
                   className={
-                    coin.market_cap_change_percentage_24h < 0
+                    Number(coin.price_percentage_change_24h) < 0
                       ? "negative"
                       : "positive"
                   }
                 >
-                  
-                  {coin.market_cap_change_percentage_24h > 0 ? "+" : ""}
-                  {coin.market_cap_change_percentage_24h ? `${coin.market_cap_change_percentage_24h.toFixed(2)}%` : "No Market Data"}
+                  {Number(coin.price_percentage_change_24h) > 0 ? "+" : ""}
+                  {Number(coin.price_percentage_change_24h)
+                    ? `${Number(coin.price_percentage_change_24h).toFixed(2)}%`
+                    : "No Market Data"}
                   <br />
                 </span>
               </Card>
