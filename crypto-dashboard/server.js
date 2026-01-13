@@ -34,7 +34,7 @@ app.get("/api/crypto", async (_req, res) => {
 app.get("/api/cryptoImage", async (req, res) => {
   const coinSymbol = req.query.coin?.toLowerCase() || "bitcoin";
   const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
-  const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
+  const apiKey = import.meta.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
 
   try {
     const response = await axios.get(apiUrl, {
