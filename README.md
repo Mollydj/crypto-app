@@ -1,16 +1,20 @@
-# 🚀 Crypto Dashboard
-
-A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **TanStack Query**, featuring real-time price updates, caching, and a retro terminal-inspired UI.
-
-🔗 **Live Demo**  
-👉 **https://mollydj.github.io/crypto-app/**
-
-> ⚠️ **Work in Progress**  
+> ⚠️ Work in Progress
+> 
+> 
 > This project is actively being developed. Features, UI, and architecture are evolving as I continue to iterate and improve the app.
+> 
+
+**🚀 Crypto Dashboard**
+
+A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **TanStack Query**, featuring real-time price updates, caching, and a retro terminal-inspired UI.
+
+🔗 **Live Demo**
+
+👉 [**https://mollydj.github.io/crypto-app/**](https://mollydj.github.io/crypto-app/)
 
 ---
 
-## ✨ Features
+**✨ Feature Roadmap**
 
 - 📈 Real-time crypto price updates
 - 💾 LocalStorage caching with API fallback
@@ -22,7 +26,7 @@ A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **TanSt
 
 ---
 
-## 🧱 Tech Stack
+**🧱 Tech Stack**
 
 - **React 19**
 - **Vite**
@@ -32,42 +36,50 @@ A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **TanSt
 - **Yarn**
 - **GitHub Pages**
 - **CoinGecko API**
+- **JWT**
+- **WebSockets**
+- **chartsjs**
 
 ---
 
-## 🧪 Run Locally
+**🧪 Run Locally**
 
-```bash
+```
 git clone https://github.com/Mollydj/crypto-app.git
-cd crypto-app
+cd crypto-dashboard
 yarn install
 yarn dev
 ```
 
-## 📝 Roadmap / TODOs
+**📝 Roadmap / TODOs**
 
-### ✅ Completed
+**✅ Completed**
 
-- [x] Project setup with Vite + React 19  
-- [x] CoinGecko API integration  
-- [x] LocalStorage caching with fallback on API failure  
-- [x] Currency switcher  
-- [x] Custom Ant Design theme  
-- [x] GitHub Pages deployment
-- [x] Live updates via WebSocket   
+- [x]  Project setup with Vite + React 19
+- [x]  Custom Ant Design theme
+- [x]  GitHub Pages deployment
 
-### 🚧 In Progress
+**🚧 In Progress**
 
-- [ ] Toggle on/off live updates
-- [ ] Detailed crypto view with interactive charts  
-- [ ] Improved error & loading states  
-- [ ] Performance optimizations (code splitting)  
-- [ ] Better mobile responsiveness  
+**State/Data Management**
 
-### 🔮 Planned
+- [ ]  Live updates via WebSocket
+- [ ]  LocalStorage caching with fallback on API failure
+- [ ]  Dashboard
+    - [ ]  Top 20 by 24hour market
+        - [ ]  Coin details page with interactive chartsjs
 
-- [ ] Favorites / watchlist  
-- [ ] Search & filtering  
-- [ ] Accessibility improvements  
-- [ ] Unit & integration tests  
-- [ ] Dark/light theme toggle  
+**🔮 Planned**
+
+- [ ]  Favorites / watchlist
+- [ ]  Search & filtering
+- [ ]  Accessibility improvements
+- [ ]  Unit & integration tests
+- [ ]  Dark/light theme toggle
+- [ ]  Currency switcher
+- [ ]  
+- [ ]  Coinbase API integration
+- [ ]  Toggle on/off live updates
+- [ ]  Improved error & loading states
+- [ ]  Performance optimizations (code splitting)
+- [ ]  Better mobile responsiveness

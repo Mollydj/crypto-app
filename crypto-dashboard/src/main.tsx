@@ -70,4 +70,6 @@ const appNode = (
   </CurrencyProvider>
 ) as React.ReactNode;
 
-ReactDOM.createRoot(rootElement).render(<React.StrictMode>{appNode}</React.StrictMode>);
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>{appNode}</React.StrictMode>
+);
