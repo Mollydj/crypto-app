@@ -5,12 +5,11 @@
   "homepage": "https://Mollydj.github.io/crypto-app",
   "type": "module",
   "scripts": {
+    "lint": "eslint .",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint .",
     "predeploy": "yarn build && tsc",
-    "deploy": "node dist/index.js"
+    "deploy": "node server.js"
   },
   "dependencies": {
     "@ant-design/icons": "6.x",
