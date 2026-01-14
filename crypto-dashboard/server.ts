@@ -12,7 +12,7 @@ import cors from "cors";
 import axios from "axios";
 
 // use .ts in dev
-import { generateJWT } from "./generateTokenPRIVATE";
+import { generateJWT } from "./generateTokenPRIVATE.ts";
 
 const app = express();
 console.log('process.env.BASE_URL>>', process.env.BASE_URL);
