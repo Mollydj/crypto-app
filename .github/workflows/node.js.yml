@@ -1,0 +1,39 @@
+name: Deploy Crypto App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: crypto-dashboard
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '25.2.1'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Set environment variables
+        run: 
+          echo "COINBASE_PRIVATE_KEY=${{ secrets.COINBASE_PRIVATE_KEY }}" >> .env
+          echo "COINBASE_KEY_NAME=${{ secrets.COINBASE_KEY_NAME }}" >> .env
+          echo "VITE_COINGECKO_API_KEY_FREE=${{ secrets.VITE_COINGECKO_API_KEY_FREE }}" >> .env
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
+        with:
+          personal_token: ${{ secrets.ACTIONS_KEY }}
+          publish_dir: ./dist
