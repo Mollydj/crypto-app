@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "dev": "vite",
     "build": "vite build",
-    "predeploy": "pwd && yarn install && yarn build && npx tsc -p tsconfig.server.json",
+    "predeploy": "pwd && yarn install && yarn build && npx tsc -p tsconfig.server.json && cd dist && ls",
     "deploy": "node dist/server.js"
   },
   "dependencies": {
