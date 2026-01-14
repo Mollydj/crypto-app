@@ -48,4 +48,4 @@ export const generateJWT = (): string => {
   );
 };
 
-console.log(generateJWT());
+console.log("JWT Token Fetched Successfully");

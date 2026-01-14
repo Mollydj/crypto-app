@@ -1,23 +1,17 @@
 // import React from "react";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useState } from "react";
 import "./App.less";
-import { useCryptoList, type Coin } from "./Hooks/useCryptoList";
 import { useCurrency } from "./Utils/CurrencyContext.tsx";
 import { CryptoProvider } from "./Utils/TickerContext.tsx";
-import { Layout, Skeleton, Switch } from "antd";
+import { Layout, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
 import { GithubFilled } from "@ant-design/icons";
 import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency.tsx";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts.ts";
-import api from "./Utils/handleEvents.ts";
-import type { CoinbaseProduct } from "./types.ts";
 
 function App() {
-  const queryClient = useQueryClient();
   const { currency } = useCurrency();
   // const { currency } = useCurrency();
   const [enableLivePrices, setEnableLivePrices] = useState<boolean>(true);
@@ -25,17 +19,14 @@ function App() {
   const { data: coins = [], isLoading } = useCoinbaseProducts();
 
   // console.log('coins>>', coins);
-
-  const coinsRef = useRef(coins);
-  const currencyRef = useRef(currency);
-  const [intervalText, setIntervalText] = useState<string>("refreshing...");
+  // const [intervalText, setIntervalText] = useState<string>("refreshing...");
   // const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket(
   //   "wss://ws-feed.exchange.coinbase.com"
   // );
   
   if (isLoading || !coins) return <p>loading...</p>;
   console.log('coins>>', coins);
-  const productIds = coins.map((item: CoinbaseProduct) => item.alias);
+  const productIds = coins.map((item: any) => item.alias);
   console.log("productIds>>", productIds);
 
   // useEffect(() => {
@@ -103,9 +94,9 @@ function App() {
         <div className="content-section">
           <div className="content-section-title">
             <h2>Top 20 by Market Cap</h2>
-            {intervalText && (
+            {/* {intervalText && (
               <span className="refresh-interval">{intervalText}</span>
-            )}
+            )} */}
           </div>
           {/* <Skeleton active={isLoading} paragraph> */}
           <CryptoProvider coinIds={productIds} enableLivePrices={enableLivePrices} coins={coins}>

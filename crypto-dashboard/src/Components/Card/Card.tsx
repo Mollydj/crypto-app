@@ -1,16 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  } from "react";
 import "./Card.less";
-import { useCurrency } from "../../Utils/CurrencyContext";
-import { Avatar, Card, Flex, Image, Skeleton } from "antd";
+import { Avatar, Card, Flex, Skeleton } from "antd";
 import CryptoButton from "../Button/Button";
-import type { Coin } from "../../Hooks/useCryptoList";
-import type { CoinbaseProduct } from "../../types";
-import { useCoinImage } from "../../Hooks/useCoinGeckoImage";
-// import type { top20Coin } from "../../Hooks/useCoinbaseProducts";
 import { useTickerPrice } from "../../Utils/TickerContext";
 
 interface CardProps {
-  coins: CoinbaseProduct;
+  // coins: CoinbaseProduct;
+  coins: any[];
   currency: string;
   // loading: boolean;
 }
@@ -21,7 +17,7 @@ const CryptoCard: React.FC<CardProps> = ({ coins = [] }) => {
 
   return (
     <div className="card-container">
-      {coins.map((coin: any, index) => {
+      {coins.map((coin: any, index: number) => {
         if (!coin) return;
         const price = useTickerPrice(coin.alias);
         return (

@@ -4,20 +4,16 @@ import React, {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import type { top20Coin, Top20Coins } from "../Hooks/useCoinbaseProducts";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { useCurrency } from "./CurrencyContext";
-import type { CoinbaseProduct } from "../types";
 
 type CryptoPrices = Record<string, number>;
 
 interface CryptoProviderProps {
   children: ReactNode;
   enableLivePrices: boolean;
-  coins: top20Coin[];
+  coins: any[];
   coinIds: string[]; // e.g. "BTC-USD"
 }
 
@@ -29,16 +25,25 @@ export const CryptoProvider: React.FC<CryptoProviderProps> = ({
   children,
   coinIds,
   enableLivePrices,
-  coins,
+  // coins,
 }) => {
   const [prices, setPrices] = useState<CryptoPrices>({});
-  const queryClient = useQueryClient();
-  const { currency } = useCurrency();
+  // const queryClient = useQueryClient();
+  // const { currency } = useCurrency();
   const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket(
     "wss://ws-feed.exchange.coinbase.com"
   );
 
   //   console.log('coinIds>>>', coinIds);
+
+  interface TickerMessage {
+  type: "ticker" | "ticker_batch";
+  // add other properties if needed
+  [key: string]: any;
+}
+
+const msg = lastJsonMessage as TickerMessage;
+
   useEffect(() => {
     if (!coinIds) return;
 
@@ -54,7 +59,7 @@ export const CryptoProvider: React.FC<CryptoProviderProps> = ({
   useEffect(() => {
     if (!lastJsonMessage) return;
 
-    if (lastJsonMessage.type === "ticker" || lastJsonMessage.type === "ticker_batch") {
+    if (msg.type === "ticker" || msg.type === "ticker_batch") {
       const updates = Array.isArray(lastJsonMessage) ? lastJsonMessage : [lastJsonMessage];
 
       updates.forEach((msg: any) => {

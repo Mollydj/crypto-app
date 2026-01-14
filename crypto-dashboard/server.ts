@@ -1,4 +1,10 @@
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Fix __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 import express from "express";
@@ -65,6 +71,16 @@ app.get("/api/cryptoImage", async (req, res) => {
   }
 });
 
+
+
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+console.log('PORT>>', PORT);
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on port ${PORT}`)
+);
+
+app.use(express.static(path.join(__dirname, "dist")));
+app.use("/api/crypto", (_req, res) => {
+  res.sendFile(path.join(__dirname, "dist/index.html"));
+});
 
