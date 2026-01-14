@@ -21,7 +21,10 @@ jobs:
         run: yarn install
 
       - name: Set environment variables
-        run: echo "VITE_COINBASE_API_KEY=${{ secrets.COINBASE_API_KEY }}" >> .env
+        run: 
+          echo "COINBASE_PRIVATE_KEY=${{ secrets.COINBASE_PRIVATE_KEY }}" >> .env
+          echo "COINBASE_KEY_NAME=${{ secrets.COINBASE_KEY_NAME }}" >> .env
+          echo "VITE_COINGECKO_API_KEY_FREE=${{ secrets.VITE_COINGECKO_API_KEY_FREE }}" >> .env
         # Add more env vars if needed
         # run: echo "VITE_OTHER_SECRET=${{ secrets.OTHER_SECRET }}" >> .env
 
@@ -29,7 +32,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@b123c456d7890abcdef1234567890abcdef1234
+        uses: actions/checkout@d3b2c7e3b67a1c34b8e0b5f3a2b1f2c8e5d6a7b8
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
