@@ -15,9 +15,9 @@ import axios from "axios";
 import { generateJWT } from "./generateTokenPRIVATE";
 
 const app = express();
-console.log('process.env.BASE_URL>>', process.env.BASE_URL);
+console.log('process.env.VITE_BASE_URL>>', process.env.VITE_BASE_URL);
 app.use(cors({
-  origin: [process.env.BASE_URL || '*']
+  origin: [process.env.VITE_BASE_URL || '*']
 }));
 
 app.get("/api/crypto", async (_req, res) => {

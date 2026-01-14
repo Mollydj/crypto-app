@@ -19,8 +19,8 @@ export type Coin = {
 
 export const useCryptoList = () => {
   const { currency } = useCurrency();
-  // const API_URL = `${import.meta.env.BASE_URL}/api/crypto`;
-  const API_URL = 'https://crypto-app-pg8n.onrender.com/api/crypto';
+  const API_URL = `${import.meta.env.VITE_BASE_URL}/api/crypto`;
+  // const API_URL = 'https://crypto-app-pg8n.onrender.com/api/crypto';
   console.log('API_URL>>', API_URL);
 
   const fetchCrypto = async (): Promise<Coin[]> => {
