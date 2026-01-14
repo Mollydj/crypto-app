@@ -4,43 +4,33 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: crypto-dashboard
-    
-    env:
-     COINBASE_KEY_NAME: ${{ secrets.COINBASE_KEY_NAME }}
-     COINBASE_PRIVATE_KEY: ${{ secrets.COINBASE_PRIVATE_KEY }}
-     VITE_COINGECKO_API_KEY_FREE: ${{ secrets.VITE_COINGECKO_API_KEY_FREE }}
-     
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+    env:
+      VITE_COINGECKO_API_KEY_FREE: ${{ secrets.VITE_COINGECKO_API_KEY_FREE }}
+      COINBASE_KEY_NAME: ${{ secrets.COINBASE_KEY_NAME }}
+      COINBASE_PRIVATE_KEY: ${{ secrets.COINBASE_PRIVATE_KEY }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: 20
 
       - name: Install dependencies
+        working-directory: crypto-dashboard
         run: yarn install
 
-      - name: Debug env vars (safe)
-        run: |
-          echo "COINBASE_KEY_NAME set: ${COINBASE_KEY_NAME:+YES}"
-          echo "COINBASE_PRIVATE_KEY set: ${COINBASE_PRIVATE_KEY:+YES}"
-          echo "VITE_COINGECKO_API_KEY_FREE set: ${VITE_COINGECKO_API_KEY_FREE:+YES}"
-
-
       - name: Build
+        working-directory: crypto-dashboard
         run: yarn build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: crypto-dashboard/dist
