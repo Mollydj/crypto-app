@@ -47,7 +47,7 @@ app.get("/api/cryptoImage", async (req, res) => {
   // @ts-ignore
   const coinSymbol = req.query.coin?.toLowerCase();
   const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
-  const apiKey = import.meta.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
+  const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
 
   try {
     const response = await axios.get(apiUrl, {
@@ -80,7 +80,7 @@ app.get("/api/cryptoImage", async (req, res) => {
   }
 });
 
-const PORT = import.meta.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 console.log("PORT>>", PORT);
 // @ts-ignore
 app.listen(PORT, "0.0.0.0", () =>
