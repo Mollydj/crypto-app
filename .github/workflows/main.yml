@@ -10,7 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: crypto-dashboard   # <-- important
+        working-directory: crypto-dashboard
+    
+    env:
+     COINBASE_KEY_NAME: ${{ secrets.COINBASE_KEY_NAME }}
+     COINBASE_PRIVATE_KEY: ${{ secrets.COINBASE_PRIVATE_KEY }}
+     VITE_COINGECKO_API_KEY_FREE: ${{ secrets.VITE_COINGECKO_API_KEY_FREE }}
+     
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -22,6 +28,13 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Debug env vars (safe)
+        run: |
+          echo "COINBASE_KEY_NAME set: ${COINBASE_KEY_NAME:+YES}"
+          echo "COINBASE_PRIVATE_KEY set: ${COINBASE_PRIVATE_KEY:+YES}"
+          echo "VITE_COINGECKO_API_KEY_FREE set: ${VITE_COINGECKO_API_KEY_FREE:+YES}"
+
 
       - name: Build
         run: yarn build
