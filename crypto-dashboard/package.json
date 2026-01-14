@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "dev": "vite",
     "build": "vite build",
-    "predeploy": "tsc",
+    "predeploy": "yarn build && tsc",
     "deploy": "node server.ts"
   },
   "dependencies": {
