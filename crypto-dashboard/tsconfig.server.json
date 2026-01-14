@@ -3,10 +3,10 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
-    "outDir": "dist",
     "esModuleInterop": true,
-    "strict": true
+    "outDir": "./dist",
+    "strict": true,
+    "allowJs": true
   },
   "include": ["server.ts", "generateTokenPRIVATE.ts"]
 }
-
