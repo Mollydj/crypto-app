@@ -8,8 +8,8 @@
     "lint": "eslint .",
     "dev": "vite",
     "build": "vite build",
-    "predeploy": "yarn build",
-    "deploy": "npx tsc -p tsconfig.server.json"
+    "predeploy": "pwd && yarn install && yarn build && npx tsc -p tsconfig.server.json",
+    "deploy": "node dist/server.js"
   },
   "dependencies": {
     "@ant-design/icons": "6.x",
