@@ -20,6 +20,7 @@ export type Coin = {
 export const useCryptoList = () => {
   const { currency } = useCurrency();
   const API_URL = `${process.env.BASE_URL}/api/crypto`;
+  console.log('API_URL>>', API_URL);
 
   const fetchCrypto = async (): Promise<Coin[]> => {
     try {
