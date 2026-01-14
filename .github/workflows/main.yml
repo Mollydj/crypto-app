@@ -34,5 +34,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/checkout@d3b2c7e3b67a1c34b8e0b5f3a2b1f2c8e5d6a7b8
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ACTIONS_KEY_FULL_ACCESS }}
           publish_dir: ./dist
