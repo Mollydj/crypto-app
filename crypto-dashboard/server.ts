@@ -12,12 +12,12 @@ import cors from "cors";
 import axios from "axios";
 
 // use .ts in dev
-import { generateJWT } from "./generateTokenPRIVATE.ts";
+import { generateJWT } from "./generateTokenPRIVATE";
 
 const app = express();
 console.log('process.env.ENV>>', process.env.ENV);
 app.use(cors({
-  origin: [process.env.ENV]
+  origin: [process.env.ENV || '*']
 }));
 
 app.get("/api/crypto", async (_req, res) => {
