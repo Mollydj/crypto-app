@@ -13,10 +13,10 @@ jobs:
         working-directory: crypto-dashboard
     steps:
       - name: Checkout repo
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        uses: actions/checkout@v4
       
       - name: Setup Node
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@v3
         with:
           node-version: '25.2.1'
 
@@ -28,8 +28,6 @@ jobs:
           echo "COINBASE_PRIVATE_KEY=${{ secrets.COINBASE_PRIVATE_KEY }}" >> .env
           echo "COINBASE_KEY_NAME=${{ secrets.COINBASE_KEY_NAME }}" >> .env
           echo "VITE_COINGECKO_API_KEY_FREE=${{ secrets.VITE_COINGECKO_API_KEY_FREE }}" >> .env
-        # Add more env vars if needed
-        # run: echo "VITE_OTHER_SECRET=${{ secrets.OTHER_SECRET }}" >> .env
 
       - name: Build
         run: yarn build
