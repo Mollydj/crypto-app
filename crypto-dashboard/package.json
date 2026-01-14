@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "vite build",
     "predeploy": "yarn build && tsc",
-    "deploy": "node server.js"
+    "deploy": "node server.ts"
   },
   "dependencies": {
     "@ant-design/icons": "6.x",
