@@ -10,7 +10,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import axios from "axios";
-import { generateJWT } from "./generateTokenPRIVATE";
+import { generateJWT } from "./generateTokenPRIVATE.js";
 
 const app = express();
 app.use(cors());
