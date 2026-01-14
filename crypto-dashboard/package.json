@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "node dist/index.js"
   },
   "dependencies": {
     "@ant-design/icons": "6.x",

@@ -19,7 +19,7 @@ const algorithm = "ES256";
 
 const uri = `${requestMethod} ${requestHost}${requestPath}`;
 
-const KEY_SECRET = import.meta.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
 
 const privateKey = crypto.createPrivateKey({
@@ -35,14 +35,14 @@ export const generateJWT = (): string => {
       iss: "cdp",
       nbf: now,
       exp: now + 120,
-      sub: import.meta.env.COINBASE_KEY_NAME,
+      sub: process.env.COINBASE_KEY_NAME,
       uri,
     },
     privateKey,
     {
       algorithm,
       header: {
-        kid: import.meta.env.COINBASE_KEY_NAME,
+        kid: process.env.COINBASE_KEY_NAME,
       },
     }
   );
