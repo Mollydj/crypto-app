@@ -10,7 +10,7 @@ A modern cryptocurrency dashboard built with **React 19**, **Vite**, and **Ta
 
 🔗 **Live Demo**
 
-👉 [**https://mollydj.github.io/crypto-app/**](https://mollydj.github.io/crypto-app/)
+👉 [**https://crypto-graphi.netlify.app/**](https://crypto-graphi.netlify.app/)
 
 ---
 
