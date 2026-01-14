@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc",
     "preview": "vite preview",
     "lint": "eslint .",
     "predeploy": "yarn build",
