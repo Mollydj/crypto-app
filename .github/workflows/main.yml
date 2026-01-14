@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@f9b3d1f5f27c2a3c8b5e9f9f1e0a1234567890ab # example pinned SHA
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       
       - name: Setup Node
-        uses: actions/setup-node@9c8d7e6f5a4b3c2d1e0f1234567890abcdef1234 # pinned SHA
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
         with:
           node-version: '25.2.1'
 
@@ -32,7 +32,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1234567890
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
