@@ -13,7 +13,7 @@ export type CoinbaseProduct = {
 };
 
 const fetchCoinbaseProducts = async (): Promise<CoinbaseProduct[]> => {
-  const res = await api.get("/api/crypto");
+  const res = await api.get(`${import.meta.env.VITE_BASE_URL}/api/crypto`);
   const allProducts: CoinbaseProduct[] = res.data.products.filter((item: any) => item.alias_to.length === 0).slice(0, 20);
   return allProducts;
 };

@@ -11,13 +11,36 @@ import express from "express";
 import cors from "cors";
 import axios from "axios";
 
-// use .ts in dev
-import { generateJWT } from "./generateTokenPRIVATE";
+import jwt from "jsonwebtoken";
+import * as crypto from "crypto";
+import 'dotenv/config'; // or require('dotenv').config();
+
+const requestMethod = "GET";
+const requestHost = "api.coinbase.com";
+const requestPath = "/api/v3/brokerage/products";
+const algorithm = "ES256";
+const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+
+// // use .ts in dev
+// import generateJWT from "./generateTokenPRIVATE";
+
+function generateJWT() {
+  const payload = { sub: "user123" };
+  // @ts-ignore
+  const token = jwt.sign(payload, KEY_SECRET, {
+    algorithm: "ES256",       // must match key type
+    expiresIn: "1h",
+    header: {
+      kid: process.env.KEY_ID   // optional
+    }
+  });
+  return token;
+}
 
 const app = express();
-console.log('process.env.VITE_BASE_URL>>', process.env.VITE_BASE_URL);
+
 app.use(cors({
-  origin: [process.env.VITE_BASE_URL || '*']
+  origin: [process.env.VITE_SERVER_BASE_URL || '*']
 }));
 
 app.get("/api/crypto", async (_req, res) => {

@@ -1,15 +1,15 @@
 // import React from "react";
 import { useState } from "react";
 import "./App.less";
-import { useCurrency } from "./Utils/CurrencyContext.tsx";
-import { CryptoProvider } from "./Utils/TickerContext.tsx";
+import { useCurrency } from "./Utils/CurrencyContext";
+import { CryptoProvider } from "./Utils/TickerContext";
 import { Layout, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
 import { GithubFilled } from "@ant-design/icons";
-import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency.tsx";
-import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts.ts";
+import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency";
+import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 
 function App() {
   const { currency } = useCurrency();

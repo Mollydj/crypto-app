@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "strict": true,
-    "allowJs": true
   },
-  "include": ["server.ts", "generateTokenPRIVATE.ts"]
+  "include": ["src/server.ts"]
 }

@@ -1,19 +1,16 @@
 {
-  "files": [],
   "compilerOptions": {
-    "module": "esnext",
-    "target": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "esModuleInterop": true,
-    "types": ["node"]
+    "target": "ES2022",                
+    "module": "ESNext",                
+    "lib": ["DOM", "DOM.Iterable", "ES2022"], 
+    "jsx": "react-jsx",                
+    "strict": true,                    
+    "esModuleInterop": true,           
+    "moduleResolution": "node",        
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"], 
   },
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "server.ts",]
 }
