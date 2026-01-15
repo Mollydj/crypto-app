@@ -13,31 +13,35 @@ import axios from "axios";
 
 import jwt from "jsonwebtoken";
 import * as crypto from "crypto";
-import 'dotenv/config'; // or require('dotenv').config();
+import 'dotenv/config';
 
 const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-const allowedOrigin = process.env.CLIENT_ORIGIN;
-
-// // use .ts in dev
-// import generateJWT from "./generateTokenPRIVATE";
-
 function generateJWT() {
   const payload = { sub: "user123" };
   // @ts-ignore
   const token = jwt.sign(payload, KEY_SECRET, {
-    algorithm: "ES256",       // must match key type
+    algorithm: "ES256",
     expiresIn: "1h",
     header: {
-      kid: process.env.KEY_ID   // optional
+      kid: process.env.KEY_ID
     }
   });
   return token;
 }
 
 const app = express();
-app.use(cors({
-  origin: allowedOrigin
-}));
+const allowedOrigins = process.env.CLIENT_ORIGIN?.split(',') || [];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS blocked by server'));
+      }
+    },
+  })
+);
 
 app.get("/api/crypto", async (_req, res) => {
   const { currency = "EUR" } = _req.query;
