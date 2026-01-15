@@ -15,11 +15,8 @@ import jwt from "jsonwebtoken";
 import * as crypto from "crypto";
 import 'dotenv/config'; // or require('dotenv').config();
 
-const requestMethod = "GET";
-const requestHost = "api.coinbase.com";
-const requestPath = "/api/v3/brokerage/products";
-const algorithm = "ES256";
 const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+const allowedOrigin = process.env.CLIENT_ORIGIN;
 
 // // use .ts in dev
 // import generateJWT from "./generateTokenPRIVATE";
@@ -38,9 +35,8 @@ function generateJWT() {
 }
 
 const app = express();
-
 app.use(cors({
-  origin: [process.env.VITE_SERVER_BASE_URL || '*']
+  origin: allowedOrigin
 }));
 
 app.get("/api/crypto", async (_req, res) => {
