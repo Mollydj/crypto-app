@@ -1,21 +1,52 @@
-import dotenv from "dotenv";
+import "dotenv/config";
+// import dotenv from "dotenv";
+
 import path from "path";
 import { fileURLToPath } from "url";
-
-// Fix __dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config();
 
 import express from "express";
 import cors from "cors";
 import axios from "axios";
-
 import jwt from "jsonwebtoken";
-import * as crypto from "crypto";
-import 'dotenv/config';
+
+// Fix __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// dotenv.config();
+
+const app = express();
+app.use(express.json());
+
+const allowedOrigins = process.env.CLIENT_ORIGIN?.split(",") || [];
+
+if (allowedOrigins.length === 0) {
+  throw new Error("Origin Base URL not found");
+}
+
+app.use(
+  cors({
+    credentials: true,
+    origin: (origin, callback) => {
+      // allow server-to-server / curl
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked: ${origin}`));
+      }
+    },
+  })
+);
+
+// app.options('*', cors());
 
 const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+
+if (!KEY_SECRET || !process.env.COINBASE_KEY_NAME) {
+  throw new Error('Coinbase credentials missing');
+}
+
 function generateJWT() {
   const payload = { sub: "user123" };
   // @ts-ignore
@@ -23,26 +54,11 @@ function generateJWT() {
     algorithm: "ES256",
     expiresIn: "1h",
     header: {
-      kid: process.env.KEY_ID
-    }
+      kid: process.env.COINBASE_KEY_NAME,
+    },
   });
   return token;
 }
-
-const app = express();
-const allowedOrigins = process.env.CLIENT_ORIGIN?.split(',') || [];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      console.log('origin>>', origin, callback);
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS blocked by server'));
-      }
-    },
-  })
-);
 
 app.get("/api/crypto", async (_req, res) => {
   const { currency = "EUR" } = _req.query;
@@ -104,14 +120,10 @@ app.get("/api/cryptoImage", async (req, res) => {
   }
 });
 
+
 const PORT = process.env.PORT || 3001;
 console.log("PORT>>", PORT);
 // @ts-ignore
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`Server running on port ${PORT}`)
 );
-
-app.use(express.static(path.join(__dirname, "dist")));
-app.use("/api/crypto", (_req, res) => {
-  res.sendFile(path.join(__dirname, "dist/index.html"));
-});
