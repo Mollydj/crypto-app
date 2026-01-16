@@ -31,19 +31,13 @@ app.use(
     credentials: true,
     origin: (origin, callback) => {
       const normalizedOrigin = normalize(origin);
-
       console.log('🌍 Incoming origin:', normalizedOrigin);
-
-      // allow server-to-server, curl, health checks
       if (!normalizedOrigin) {
         return callback(null, true);
       }
-
       if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
-
-      // 🚨 DO NOT BLOCK — LOG ONLY
       console.warn('⚠️ Origin not in allowlist:', normalizedOrigin);
       return callback(null, true);
     },
