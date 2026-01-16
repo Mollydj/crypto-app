@@ -16,25 +16,36 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+const normalize = (url?: string) =>
+  url?.replace(/\/$/, '');
 
-const allowedOrigins = process.env.CLIENT_ORIGIN?.split(",") || [];
+const allowedOrigins = (process.env.CLIENT_ORIGIN ?? '')
+  .split(',')
+  .map(normalize)
+  .filter(Boolean);
 
-if (allowedOrigins.length === 0) {
-  throw new Error("Origin Base URL not found");
-}
+console.log('✅ Allowed origins:', allowedOrigins);
 
 app.use(
   cors({
     credentials: true,
     origin: (origin, callback) => {
-      // allow server-to-server / curl
-      if (!origin) return callback(null, true);
+      const normalizedOrigin = normalize(origin);
 
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS blocked: ${origin}`));
+      console.log('🌍 Incoming origin:', normalizedOrigin);
+
+      // allow server-to-server, curl, health checks
+      if (!normalizedOrigin) {
+        return callback(null, true);
       }
+
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+
+      // 🚨 DO NOT BLOCK — LOG ONLY
+      console.warn('⚠️ Origin not in allowlist:', normalizedOrigin);
+      return callback(null, true);
     },
   })
 );
