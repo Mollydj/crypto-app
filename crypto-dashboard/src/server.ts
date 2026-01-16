@@ -90,7 +90,8 @@ app.get("/api/crypto", async (_req, res) => {
 
 app.get("/api/cryptoImage", async (req, res) => {
   // @ts-ignore
-  const coinSymbol = req.query.coin?.toLowerCase();
+  // const coinSymbol = req.query.coin?.toLowerCase();
+  const coinSymbol = 'bitcoin';
   const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
   const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
 
@@ -111,8 +112,9 @@ app.get("/api/cryptoImage", async (req, res) => {
 
     // Extract large image, fallback if missing
     const coinImage = response.data?.image?.large;
-
+    console.log('RESPONSE>>', response);
     res.json({ coin: coinSymbol, coinImage });
+    console.log('SUCCESS IMAGES')
     // @ts-ignore
   } catch (err: unknown) {
     // @ts-ignore

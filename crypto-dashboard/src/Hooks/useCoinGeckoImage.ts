@@ -1,11 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../Utils/handleEvents";
 
-export const useCoinImage = () =>
-  useQuery<string, Error>({
-    queryKey: ["coinImage"], // single key since only 1 coin
-    queryFn: async () => {
-      const { data } = await api.get("/api/cryptoImage"); // hits server endpoint
-      return data.coinImage; // returns the image URL
-    },
+const fetchCoingeckoImage = async (): Promise<any[]> => {
+  const res = await api.get("/api/cryptoImage");
+  const allProducts: any[] = res.data.products.filter((item: any) => item.alias_to.length === 0).slice(0, 20);
+  return allProducts;
+};
+
+
+export const useCoinGeckoImage = () => {
+  return useQuery<any[], Error>({
+    queryKey: ["coinbaseProducts"],
+    queryFn: fetchCoingeckoImage,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false,
   });
+};

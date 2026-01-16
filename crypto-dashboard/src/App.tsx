@@ -3,78 +3,28 @@ import { useState } from "react";
 import "./App.less";
 import { useCurrency } from "./Utils/CurrencyContext";
 import { CryptoProvider } from "./Utils/TickerContext";
-import { Layout, Switch } from "antd";
+import { Layout, Skeleton, Spin, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
 import { GithubFilled } from "@ant-design/icons";
 import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
+import { CoinbaseProduct } from "./types";
+import { LoadingOutlined } from '@ant-design/icons';
+
 
 function App() {
   const { currency } = useCurrency();
-  // const { currency } = useCurrency();
   const [enableLivePrices, setEnableLivePrices] = useState<boolean>(true);
-  // const { data: coins = [], isLoading } = useCoinbaseProducts();
-  const { data: coins = [], isLoading } = useCoinbaseProducts();
-
-  // console.log('coins>>', coins);
-  // const [intervalText, setIntervalText] = useState<string>("refreshing...");
-  // const { readyState, sendJsonMessage, lastJsonMessage } = useWebSocket(
-  //   "wss://ws-feed.exchange.coinbase.com"
-  // );
-  
-  if (isLoading || !coins) return <p>loading...</p>;
-  console.log('coins>>', coins);
+  const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<Date>(
+    new Date()
+  );
+  const { data: coins = [], isLoading = true } = useCoinbaseProducts();
   const productIds = coins.map((item: any) => item.alias);
-  console.log("productIds>>", productIds);
-
-  // useEffect(() => {
-  //   if (
-  //     readyState === ReadyState.OPEN &&
-  //     enableLivePrices &&
-  //     productIds.length
-  //   ) {
-  //     sendJsonMessage({
-  //       type: "subscribe",
-  //       product_ids: productIds,
-  //       channels: ["ticker_batch"],
-  //     });
-  //   }
-  // }, [readyState, enableLivePrices, coins]);
-
-  // useEffect(() => {
-  //   if (!lastJsonMessage) return;
-
-  //   if (lastJsonMessage.type === "ticker") {
-  //     const { product_id, price, open_24h, volume_24h } = lastJsonMessage;
-  //     const [symbol] = product_id.split("-");
-
-  //     queryClient.setQueryData<CoinbaseProduct[]>(
-  //       ["cryptoList", currency],
-  //       (oldCoins = []) =>
-  //         oldCoins.map((coin) =>
-  //           coin.base_display_symbol.toUpperCase() === symbol
-  //             ? {
-  //                 ...coin,
-  //                 price,
-  //                 open_24h,
-  //                 volume_24h,
-  //               }
-  //             : coin
-  //         )
-  //     );
-  //   }
-  // }, [lastJsonMessage, enableLivePrices, queryClient, coins]);
-
-  // useEffect(() => {
-  //   coinsRef.current = coins;
-  // }, [coins]);
-
-  // useEffect(() => {
-  //   currencyRef.current = currency;
-  // }, [currency]);
-
+  // console.log("lastFetchedTimestamp>>", lastFetchedTimestamp);
+  // console.log("coins>>", coins);
+  console.log("isLoading>>", isLoading);
   return (
     <Layout>
       <Header>
@@ -82,6 +32,7 @@ function App() {
           checked={enableLivePrices}
           onChange={(checked) => {
             setEnableLivePrices(checked);
+            setLastFetchedTimestamp(new Date());
           }}
           checkedChildren="Live Updates On"
           unCheckedChildren="Live Updates Off"
@@ -94,15 +45,29 @@ function App() {
         <div className="content-section">
           <div className="content-section-title">
             <h2>Top 20 by Market Cap</h2>
-            {/* {intervalText && (
-              <span className="refresh-interval">{intervalText}</span>
-            )} */}
+            {lastFetchedTimestamp && (
+                <span className="refresh-interval">
+                {/* <Spin indicator={<LoadingOutlined spin />} size="small" /> */}
+                  {lastFetchedTimestamp && !enableLivePrices
+                    ? "last update: " +
+                      lastFetchedTimestamp.toLocaleTimeString()
+                    : "live updates"}
+                </span>
+            )}
           </div>
-          {/* <Skeleton active={isLoading} paragraph> */}
-          <CryptoProvider coinIds={productIds} enableLivePrices={enableLivePrices} coins={coins}>
-            <CryptoCard coins={coins} currency={currency} />
-          </CryptoProvider>
-          {/* </Skeleton> */}
+          {
+            <CryptoProvider
+              coinIds={productIds}
+              enableLivePrices={enableLivePrices}
+              coins={coins}
+            >
+              <CryptoCard
+                isLoading={isLoading}
+                coins={coins}
+                currency={currency}
+              />
+            </CryptoProvider>
+          }
         </div>
         <h2>Next thing</h2>
       </Content>

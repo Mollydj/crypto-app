@@ -37,15 +37,23 @@ export const CryptoProvider: React.FC<CryptoProviderProps> = ({
   //   console.log('coinIds>>>', coinIds);
 
   interface TickerMessage {
-  type: "ticker" | "ticker_batch";
-  // add other properties if needed
-  [key: string]: any;
-}
+    type: "ticker" | "ticker_batch";
+    // add other properties if needed
+    [key: string]: any;
+  }
 
-const msg = lastJsonMessage as TickerMessage;
+  const msg = lastJsonMessage as TickerMessage;
 
   useEffect(() => {
     if (!coinIds) return;
+
+    if (readyState === ReadyState.OPEN && !enableLivePrices) {
+      sendJsonMessage({
+        type: "unsubscribe",
+        product_ids: coinIds,
+        channels: ["ticker"],
+      });
+    }
 
     if (readyState === ReadyState.OPEN && enableLivePrices && coinIds.length) {
       sendJsonMessage({
@@ -60,12 +68,14 @@ const msg = lastJsonMessage as TickerMessage;
     if (!lastJsonMessage) return;
 
     if (msg.type === "ticker" || msg.type === "ticker_batch") {
-      const updates = Array.isArray(lastJsonMessage) ? lastJsonMessage : [lastJsonMessage];
+      const updates = Array.isArray(lastJsonMessage)
+        ? lastJsonMessage
+        : [lastJsonMessage];
 
       updates.forEach((msg: any) => {
         const { product_id, price } = msg;
         if (product_id && price) {
-          setPrices(prev => ({ ...prev, [product_id]: Number(price) }));
+          setPrices((prev) => ({ ...prev, [product_id]: Number(price) }));
         }
       });
     }

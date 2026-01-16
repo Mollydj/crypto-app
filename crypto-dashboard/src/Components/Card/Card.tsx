@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React from "react";
 import "./Card.less";
 import { Avatar, Card, Flex, Skeleton } from "antd";
 import CryptoButton from "../Button/Button";
@@ -8,52 +8,43 @@ interface CardProps {
   // coins: CoinbaseProduct;
   coins: any[];
   currency: string;
-  // loading: boolean;
+  isLoading: boolean;
 }
 // TO DO: CREATE ANOTHER ENDPOINT TO GET DATA BY COIN INSTEAD OF all coins on APP.TSX
 
-const CryptoCard: React.FC<CardProps> = ({ coins = [] }) => {
+const CryptoCard: React.FC<CardProps> = ({ coins = [], isLoading }) => {
   if (!coins) return;
-
   return (
     <div className="card-container">
       {coins.map((coin: any, index: number) => {
         if (!coin) return;
         const price = useTickerPrice(coin.alias);
         return (
-          <Skeleton active={!coins} loading={!coins} key={coin.product_id}>
-            <Flex vertical>
-              <Card className="crypto-card">
-                {(index + 1).toString()}
-                <Avatar shape="square" src={coin.product_id}>
-                  {/* <Skeleton avatar active={isLoading}>
-                    <Image
-                      src={imageUrl}
-                      alt={coin.base_display_symbol}
-                    />
-                  </Skeleton> */}
-                  {coin.base_display_symbol}
-                </Avatar>
+          <Flex vertical>
+            <Card className="crypto-card">
+              {(index + 1).toString()}
+              <Avatar shape="square" src={coin.product_id}>
+                {coin.base_display_symbol}
+              </Avatar>
 
-                <CryptoButton className="card-button">
-                  {price || coin.price}
-                </CryptoButton>
-                <span
-                  className={
-                    Number(coin.price_percentage_change_24h) < 0
-                      ? "negative"
-                      : "positive"
-                  }
-                >
-                  {Number(coin.price_percentage_change_24h) > 0 ? "+" : ""}
-                  {Number(coin.price_percentage_change_24h)
-                    ? `${Number(coin.price_percentage_change_24h).toFixed(2)}%`
-                    : "No Market Data"}
-                  <br />
-                </span>
-              </Card>
-            </Flex>
-          </Skeleton>
+              <CryptoButton className="card-button">
+                {price || coin.price}
+              </CryptoButton>
+              <span
+                className={
+                  Number(coin.price_percentage_change_24h) < 0
+                    ? "negative"
+                    : "positive"
+                }
+              >
+                {Number(coin.price_percentage_change_24h) > 0 ? "+" : ""}
+                {Number(coin.price_percentage_change_24h)
+                  ? `${Number(coin.price_percentage_change_24h).toFixed(2)}%`
+                  : "No Market Data"}
+                <br />
+              </span>
+            </Card>
+          </Flex>
         );
       })}
     </div>
