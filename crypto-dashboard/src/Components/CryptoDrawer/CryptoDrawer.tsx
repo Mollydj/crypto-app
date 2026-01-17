@@ -1,41 +1,25 @@
 import React from "react";
 import "./CryptoDrawer.less";
-import { Avatar, Button, Col, Drawer, List, Row, Segmented } from "antd";
+import { Avatar, Button, List, Segmented } from "antd";
 import { useCoinbaseProductById } from "../../Hooks/useCoinbaseProductById";
 import { useTickerPrice } from "../../Utils/TickerContext";
-import { FormatMarketCap } from "../../Utils/formatMarketCap";
-import NumberFlow from "@number-flow/react";
 import { placeholderCoin } from "../../types";
-import { getPriceDelta } from "../../Utils/getPriceDelta";
 import CryptoChart from "../CryptoChart/CryptoChart";
-import {
-  DollarOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  SyncOutlined,
-  LineChartOutlined,
-  DeploymentUnitOutlined,
-  TagOutlined,
-  ClockCircleOutlined,
-  SwapOutlined,
-  ProfileOutlined,
-} from "@ant-design/icons";
 import { getCoinDrawerData } from "./DrawerStatistics";
 import { useCurrency } from "../../Utils/CurrencyContext";
 
 interface CardProps {
   productId: string;
   width: string;
-  // isLoading: boolean;
 }
 
-const CryptoDrawer: React.FC<CardProps> = ({ productId, width }) => {
+const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
   const { data: coin, isLoading, error } = useCoinbaseProductById(productId);
   const { currency, setCurrency } = useCurrency();
   const livePrices = useTickerPrice();
   const buySellOnCoinbase = `https://www.coinbase.com/price/${coin.base_display_symbol.toLowerCase()}?locale=${currency.toLowerCase()}`;
 
-  if (!coin) return null;
+  if (!coin || isLoading || error) return null;
   const livePriceData = livePrices[coin.product_id];
   const side = livePriceData?.side || placeholderCoin.side;
 

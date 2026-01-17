@@ -1,24 +1,19 @@
 // CryptoCard.tsx
 import React, { useEffect, useState } from "react";
 import "./CryptoCard.less";
-import { Avatar, Button, List } from "antd";
+import { Avatar, List } from "antd";
 import {
-  EllipsisOutlined,
-  InfoCircleOutlined,
-  InfoOutlined,
-  LoadingOutlined,
   TransactionOutlined,
 } from "@ant-design/icons";
 import CryptoDrawer from "../CryptoDrawer/CryptoDrawer";
 import { CoinbaseProduct, placeholderCoin } from "../../types";
-import { FormatMarketCap } from "../../Utils/formatMarketCap";
 import NumberFlow from "@number-flow/react";
 import { useTickerPrice } from "../../Utils/TickerContext";
-import { CurrencyType, useCurrency } from "../../Utils/CurrencyContext";
+import { CurrencyContextType, useCurrency } from "../../Utils/CurrencyContext";
 
 interface CardProps {
   coins: CoinbaseProduct[];
-  currency: CurrencyType;
+  currency: CurrencyContextType;
   isLoading: boolean;
   livePrices: Record<string, number>;
 }

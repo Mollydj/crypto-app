@@ -13,7 +13,6 @@ import {
   Tooltip,
   Legend,
   TimeScale,
-  elements,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { useTickerPrice } from "../../Utils/TickerContext";

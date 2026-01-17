@@ -1,10 +1,10 @@
 // import React from "react";
 import { useEffect, useState } from "react";
 import "./App.less";
-import { Layout, Switch, Tooltip } from "antd";
+import { Layout, Switch } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import CryptoButton from "./Components/Button/Button";
-import { GithubFilled, InfoCircleOutlined } from "@ant-design/icons";
+import { GithubFilled } from "@ant-design/icons";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 import { CoinbaseProduct } from "./types";
 import CryptoCard from "./Components/CryptoCard/CryptoCard";
