@@ -16,29 +16,28 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
-const normalize = (url?: string) =>
-  url?.replace(/\/$/, '');
+const normalize = (url?: string) => url?.replace(/\/$/, "");
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN ?? '')
-  .split(',')
+const allowedOrigins = (process.env.CLIENT_ORIGIN ?? "")
+  .split(",")
   .map(normalize)
   .filter(Boolean);
 
-console.log('✅ Allowed origins:', allowedOrigins);
+console.log("✅ Allowed origins:", allowedOrigins);
 
 app.use(
   cors({
     credentials: true,
     origin: (origin, callback) => {
       const normalizedOrigin = normalize(origin);
-      console.log('🌍 Incoming origin:', normalizedOrigin);
+      console.log("🌍 Incoming origin:", normalizedOrigin);
       if (!normalizedOrigin) {
         return callback(null, true);
       }
       if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
-      console.warn('⚠️ Origin not in allowlist:', normalizedOrigin);
+      console.warn("⚠️ Origin not in allowlist:", normalizedOrigin);
       return callback(null, true);
     },
   })
@@ -49,7 +48,7 @@ app.use(
 const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
 if (!KEY_SECRET || !process.env.COINBASE_KEY_NAME) {
-  throw new Error('Coinbase credentials missing');
+  throw new Error("Coinbase credentials missing");
 }
 
 function generateJWT() {
@@ -65,13 +64,13 @@ function generateJWT() {
   return token;
 }
 
-app.get("/api/crypto", async (_req, res) => {
-  const { currency = "EUR" } = _req.query;
-  try {
-    const token = generateJWT();
+const token = generateJWT();
 
+app.get("/api/marketcap", async (_req, res) => {
+  // const { currency = "USD" } = _req.query;
+  try {
     const coinbaseResponse = await axios.get(
-      "https://api.coinbase.com/api/v3/brokerage/market/products/?&products_sort_order=PRODUCTS_SORT_ORDER_VOLUME_24H_DESCENDING",
+      "https://api.coinbase.com/api/v3/brokerage/market/products?product_type=UNKNOWN_PRODUCT_TYPE&contract_expiry_type=UNKNOWN_CONTRACT_EXPIRY_TYPE&expiring_contract_status=UNKNOWN_EXPIRING_CONTRACT_STATUS&products_sort_order=PRODUCTS_SORT_ORDER_VOLUME_24H_DESCENDING",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -80,7 +79,27 @@ app.get("/api/crypto", async (_req, res) => {
     );
 
     res.json(coinbaseResponse.data);
-    console.log("TOP 20 COINS SUCCESS");
+    console.log("TOP 20 COINS SUCCESS", token);
+  } catch (err: unknown) {
+    // @ts-ignore
+    console.error("Coinbase error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Coinbase request failed" });
+  }
+});
+
+app.get("/api/marketcapid", async (_req, res) => {
+  const { coin } = _req.query; // e.g. BTC-USD
+  try {
+    const response = await axios.get(
+      `https://api.coinbase.com/api/v3/brokerage/market/products/${coin}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.COINBASE_API_TOKEN}`,
+        },
+      }
+    );
+    res.json(response.data);
+    console.log("SUCCESS: BTC-USD fetched");
   } catch (err: unknown) {
     // @ts-ignore
     console.error("Coinbase error:", err.response?.data || err.message);
@@ -91,7 +110,7 @@ app.get("/api/crypto", async (_req, res) => {
 app.get("/api/cryptoImage", async (req, res) => {
   // @ts-ignore
   // const coinSymbol = req.query.coin?.toLowerCase();
-  const coinSymbol = 'bitcoin';
+  const coinSymbol = "bitcoin";
   const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
   const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
 
@@ -112,9 +131,9 @@ app.get("/api/cryptoImage", async (req, res) => {
 
     // Extract large image, fallback if missing
     const coinImage = response.data?.image?.large;
-    console.log('RESPONSE>>', response);
+    console.log("RESPONSE>>", response);
     res.json({ coin: coinSymbol, coinImage });
-    console.log('SUCCESS IMAGES')
+    console.log("SUCCESS IMAGES");
     // @ts-ignore
   } catch (err: unknown) {
     // @ts-ignore
@@ -126,7 +145,6 @@ app.get("/api/cryptoImage", async (req, res) => {
     });
   }
 });
-
 
 const PORT = process.env.PORT || 3001;
 console.log("PORT>>", PORT);

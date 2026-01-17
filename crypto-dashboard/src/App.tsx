@@ -1,32 +1,61 @@
 // import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.less";
-import { useCurrency } from "./Utils/CurrencyContext";
-import { CryptoProvider } from "./Utils/TickerContext";
-import { Layout, Skeleton, Spin, Switch } from "antd";
+import { Layout, Switch, Tooltip } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import CryptoCard from "./Components/Card/Card";
 import CryptoButton from "./Components/Button/Button";
-import { GithubFilled } from "@ant-design/icons";
-import SelectCryptoCurrency from "./Components/SelectCurrency/SelectCurrency";
+import { GithubFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 import { CoinbaseProduct } from "./types";
-import { LoadingOutlined } from '@ant-design/icons';
-
+import CryptoCard from "./Components/CryptoCard/CryptoCard";
+import { queryClient } from "./Utils/queryClient";
+import { fetchCoinbaseProductById } from "./Hooks/useCoinbaseProductById";
+import { CryptoProvider } from "./Utils/CryptoContext";
 
 function App() {
-  const { currency } = useCurrency();
   const [enableLivePrices, setEnableLivePrices] = useState<boolean>(true);
   const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<Date>(
-    new Date()
+    new Date(),
   );
-  const { data: coins = [], isLoading = true } = useCoinbaseProducts();
-  const productIds = coins.map((item: any) => item.alias);
-  // console.log("lastFetchedTimestamp>>", lastFetchedTimestamp);
-  // console.log("coins>>", coins);
-  console.log("isLoading>>", isLoading);
+  const { data: coins = [], isLoading = true } = useCoinbaseProducts() as {
+    data: CoinbaseProduct[];
+    isLoading: boolean;
+  };
+
+  if (!coins) return null;
+  const productIds = coins.map((item: CoinbaseProduct) => item.product_id);
+  console.log("coinIds>>", productIds);
+  const prefetchTop20Coins = async () => {
+    if (!coins?.length) return;
+
+    await Promise.all(
+      coins.map(async (coin: CoinbaseProduct) => {
+        try {
+          const data = await queryClient.prefetchQuery<CoinbaseProduct, Error>({
+            queryKey: [coin.product_id],
+            queryFn: () =>
+              fetchCoinbaseProductById({ queryKey: [coin.product_id] }),
+            staleTime: 1000 * 60 * 5,
+          });
+          console.log(`Prefetched ${coin.product_id}`, data);
+        } catch (err) {
+          console.error(`Failed to prefetch ${coin.product_id}`, err);
+        }
+      }),
+    );
+  };
+
+  useEffect(() => {
+    if (!coins) return;
+    prefetchTop20Coins();
+  }, [coins]);
+
+  console.log("coins>>", coins);
+
   return (
-    <Layout>
+    <Layout
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <Header>
         <Switch
           checked={enableLivePrices}
@@ -41,64 +70,72 @@ function App() {
         <p>test</p>
       </Header>
       <Content>
-        <SelectCryptoCurrency />
+        {/* <SelectCryptoCurrency /> */}
         <div className="content-section">
-          <div className="content-section-title">
-            <h2>Top 20 by Market Cap</h2>
-            {lastFetchedTimestamp && (
+          <span className="content-section-title">
+            <h2 className="section-title">
+              Top Movers{" "}
+              <Tooltip title="test">
+                <InfoCircleOutlined />
+              </Tooltip>
+              {lastFetchedTimestamp && (
                 <span className="refresh-interval">
-                {/* <Spin indicator={<LoadingOutlined spin />} size="small" /> */}
+                  {/* <Spin indicator={<LoadingOutlined spin />} size="small" /> */}
                   {lastFetchedTimestamp && !enableLivePrices
                     ? "last update: " +
                       lastFetchedTimestamp.toLocaleTimeString()
                     : "live updates"}
                 </span>
-            )}
-          </div>
+              )}
+            </h2>
+          </span>
           {
             <CryptoProvider
               coinIds={productIds}
               enableLivePrices={enableLivePrices}
-              coins={coins}
             >
               <CryptoCard
+                // props={props}
                 isLoading={isLoading}
                 coins={coins}
-                currency={currency}
+                // currency={currency}
               />
             </CryptoProvider>
           }
         </div>
-        <h2>Next thing</h2>
       </Content>
-      <Footer>
-        <div>
-          <p>
-            Designed and coded by{" "}
-            <CryptoButton variant="dashed">
-              Molly DJ
-              <GithubFilled />
+      {!isLoading && (
+        <Footer>
+          <div>
+            <p>
+              Designed and coded by{" "}
+              <CryptoButton variant="dashed">
+                Molly DJ
+                <GithubFilled />
+              </CryptoButton>
+            </p>
+          </div>
+          <div className="resources">
+            <CryptoButton
+              onClick={() =>
+                window.open("https://www.coingecko.com/", "_blank")
+              }
+            >
+              API
             </CryptoButton>
-          </p>
-        </div>
-        <div className="resources">
-          <CryptoButton
-            onClick={() => window.open("https://www.coingecko.com/", "_blank")}
-          >
-            API
-          </CryptoButton>
-          <CryptoButton
-            onClick={() =>
-              window.open(
-                "https://www.linkedin.com/in/mollydeangelisjimenez/",
-                "_blank"
-              )
-            }
-          >
-            LinkedIn
-          </CryptoButton>
-        </div>
-      </Footer>
+            <CryptoButton
+              onClick={() =>
+                window.open(
+                  "https://www.linkedin.com/in/mollydeangelisjimenez/",
+                  "_blank",
+                )
+              }
+            >
+              LinkedIn
+            </CryptoButton>
+          </div>
+        </Footer>
+      )}
     </Layout>
   );
 }

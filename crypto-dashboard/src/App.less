@@ -1,8 +1,32 @@
 // GLOABAL STYLES
 @import "./variables.less";
 
+:root {
+  .ant-pagination .ant-pagination-item a:hover {
+    color: @secondary-color;
+  }
+  .ant-btn {
+    box-shadow: none;
+  }
+
+  .ant-pagination .ant-pagination-item-active a:hover {
+    color: @primary-color;
+  }
+  .ant-pagination .ant-pagination-prev button:hover,
+  .ant-pagination .ant-pagination-next button:hover {
+    color: @secondary-color;
+    background-color: none;
+  }
+  .--ant-button-default-shadow {
+    box-shadow: none;
+    background-color: #ff4d4f !important;
+  }
+}
+
+@pagination-item-active-color-hover: #ff4d4f;
+
 #root {
-  height: 100vh;
+  // height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -43,7 +67,6 @@ body {
 
 .ant-layout-content {
   div.select-currency {
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,45 +77,49 @@ body {
 
   // CRYPTO CARDS SECTION
   div.content-section {
-    background-color: #303030;
     padding: @box-padding-l;
-    
 
     .content-section-title {
-      display: flex;
-      justify-content: space-between;
       .refresh-interval {
+        color: @secondary-text-color;
+        display: flex;
+        height: 100%;
         font-size: 12px;
       }
     }
-    h2 {
-      margin-top: 0px;
+    h2.section-title {
+      gap: 8px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
     }
   }
   .card-container {
     overflow: auto;
     scroll-behavior: smooth;
     display: flex;
-    
-    
+
     &::-webkit-scrollbar {
       display: none;
     }
   }
 
-  div.crypto-card,
+  // div.crypto-card,
   div.ant-skeleton {
     margin-right: @box-padding-m;
     width: 200px;
     height: 230px;
     // border-radius: 8px;
-        background-color: none;
-    flex: 0 0 200px;
+    background-color: none;
+    // flex: 0 0 200px;
   }
 }
 
 .ant-layout-footer {
+  position: relative;
+  bottom: 0px;
   display: flex;
+  margin-top: 20px;
   color: @background-color;
   align-items: center;
   justify-content: space-between;

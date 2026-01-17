@@ -1,0 +1,135 @@
+@import "../../variables.less";
+
+.card-container {
+  // background-color: var(--background);
+  // background-color: red;
+  display: flex;
+  
+}
+
+// PAGINATION STYLING
+ul.ant-list-items {
+  // background-color: saddlebrown;
+  min-width: 215px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  li.ant-list-item {
+    cursor: pointer;
+    background-color: var(--background);
+    display: flex;
+    padding: 0px 10px 4px 10px;
+    // padding: 0px 0px 0px 0px;
+    color: #00ff00;
+  }
+}
+
+.ant-list-loading > .ant-list-pagination {
+  display: none;
+}
+
+.ant-list .ant-list-pagination {
+  padding: 12px 8px;
+  margin-top: 0px;
+  margin-block-start: 0px;
+  writing-mode: horizontal-tb;
+}
+
+// DRAWER STYLING
+.card-container:has(.ant-drawer) {
+  width: 100%;
+  background-color: var(--background);
+  .ant-list {
+    width: 15%;
+  }
+}
+
+.card-content-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.card-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+// .anticon .anticon-line-chart {
+//   // width: 20px;
+// }
+
+// ONMORE BUTTON STYLING
+.card-expand-button {
+  background-color: transparent;
+  border: none;
+  padding: 4px 4px;
+  margin-right: 8px;
+  border-radius: 4px;
+  color: @primary-color;
+  box-shadow: 0px;
+}
+.card-expand-button:active {
+  background-color: @secondary-color;
+  color: @secondary-color;
+  cursor: pointer;
+}
+.card-expand-button:hover {
+  background-color: @primary-color;
+  color: @secondary-color;
+  cursor: pointer;
+}
+
+// CARD STYLING
+
+.crypto-card {
+  // display: flex;
+  // flex-direction: column;
+  background-color: deepskyblue;
+
+  .crypto-card-coin-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .crypto-card-name {
+      .crypto-card-avatar-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        // background-color: olive;
+        width:70%;
+        p {
+          color: antiquewhite;
+          display: block;
+          flex: 1;
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-left: 8px;
+        }
+      }
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      // background-color: rebeccapurple;
+    }
+
+    .crypto-card-price-container {
+      text-align: end;
+      font-size: 20px;
+      // background-color: steelblue;
+    }
+  }
+}
+
+
+.negative {
+  color: @danger-color;
+}
+
+.positive {
+  color: @secondary-text-color;
+}

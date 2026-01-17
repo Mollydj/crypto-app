@@ -9,9 +9,17 @@ const queryClient = new QueryClient();
 // Custom colors
 const primaryColor = "#00ff00";
 const backgroundColor = "#242424";
+const secondaryColor = "#FAEBD7";
 
 const customTheme = {
   components: {
+    Pagination: {
+      itemActiveColor: primaryColor,
+      colorPrimary: primaryColor,
+      colorBgTextHover: primaryColor,
+      colorPrimaryHover: primaryColor,
+      itemActiveColorHover: secondaryColor,
+    },
     Layout: {
       bodyBg: backgroundColor,
       footerBg: primaryColor,
@@ -20,13 +28,14 @@ const customTheme = {
     Switch: {
       colorPrimary: primaryColor,
       colorPrimaryHover: primaryColor,
-      colorBgContainer: backgroundColor,
+      colorBgContainer: '#686767',
       colorBorder: primaryColor,
       colorBgHover: primaryColor,
       colorBgActive: primaryColor,
       colorTextLightSolid: backgroundColor,
     },
     Button: {
+      
       colorText: backgroundColor,
       colorPrimary: primaryColor,
       colorBgContainer: primaryColor,
