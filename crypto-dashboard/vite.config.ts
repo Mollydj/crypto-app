@@ -5,6 +5,6 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ["react", "react-dom", "chart.js", "chartjs-adapter-date-fns"],
   },
 });

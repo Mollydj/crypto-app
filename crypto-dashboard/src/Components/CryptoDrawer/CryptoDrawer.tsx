@@ -1,12 +1,27 @@
 import React from "react";
 import "./CryptoDrawer.less";
-import { Avatar, Col, Drawer, Row } from "antd";
+import { Avatar, Button, Col, Drawer, List, Row, Segmented } from "antd";
 import { useCoinbaseProductById } from "../../Hooks/useCoinbaseProductById";
 import { useTickerPrice } from "../../Utils/TickerContext";
 import { FormatMarketCap } from "../../Utils/formatMarketCap";
 import NumberFlow from "@number-flow/react";
 import { placeholderCoin } from "../../types";
 import { getPriceDelta } from "../../Utils/getPriceDelta";
+import CryptoChart from "../CryptoChart/CryptoChart";
+import {
+  DollarOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  SyncOutlined,
+  LineChartOutlined,
+  DeploymentUnitOutlined,
+  TagOutlined,
+  ClockCircleOutlined,
+  SwapOutlined,
+  ProfileOutlined,
+} from "@ant-design/icons";
+import { getCoinDrawerData } from "./DrawerStatistics";
+import { useCurrency } from "../../Utils/CurrencyContext";
 
 interface CardProps {
   productId: string;
@@ -15,71 +30,56 @@ interface CardProps {
 }
 
 const CryptoDrawer: React.FC<CardProps> = ({ productId, width }) => {
-  const { data: coin, isLoading = true } = useCoinbaseProductById(productId);
-  // const livePrice = useTickerPrice(productId);
+  const { data: coin, isLoading, error } = useCoinbaseProductById(productId);
+  const { currency, setCurrency } = useCurrency();
   const livePrices = useTickerPrice();
+  const buySellOnCoinbase = `https://www.coinbase.com/price/${coin.base_display_symbol.toLowerCase()}?locale=${currency.toLowerCase()}`;
+
+  if (!coin) return null;
   const livePriceData = livePrices[coin.product_id];
-  const livePrice = livePriceData?.price ?? coin.price;
-  const change24h =
-    livePriceData?.price_percentage_change_24h ??
-    coin.price_percentage_change_24h;
-  console.log("coin>>", livePrice, change24h);
-  if (!productId || !coin) return;
+  const side = livePriceData?.side || placeholderCoin.side;
+
   return (
-    <Drawer
-      keyboard
-      loading={isLoading}
-      defaultSize={width}
-      placement="right"
-      closable={false}
-      open
-      getContainer={false}
-      mask={false}
-    >
+    <div className="drawer-test">
       {!coin && null}
       <span className="crypto-drawer-title">
         <h1>{coin.display_name}</h1>
         <div className="crypto-drawer-change">
-          <h2 className="section-title">
-            <NumberFlow
-              willChange
-              animated
-              value={livePriceData?.price}
-              format={{
-                style: "currency",
-                currency: "USD",
-                trailingZeroDisplay: "stripIfInteger",
-              }}
-            />
-          </h2>
+          <Button
+            className="crypto-buy-sell-button"
+            onClick={() => window.open(buySellOnCoinbase, "_blank")}
+          >
+            {side} on Coinbase
+          </Button>
         </div>
       </span>
       <br />
-      {/* <div className="coin-details-container">
-      Market Cap: {FormatMarketCap(coin.price * coin.base_max_size)}
-        <p>Type: {coin.product_type}</p>
+      <div>
+        <CryptoChart coin={coin} productId={productId} />
+        <Segmented<string>
+          options={["EUR", "GBP", "USD"]}
+          value={currency}
+          onChange={(value) => {
+            setCurrency(value);
+          }}
+        />
+      </div>
+      <h3>{coin.base_name} Statistics</h3>
 
-        <p>
-          Current Price:{" "}
-          <NumberFlow
-            willChange
-            animated
-            value={livePrice}
-            format={{
-              style: "currency",
-              currency: "USD",
-              trailingZeroDisplay: "stripIfInteger",
-            }}
-          />
-        </p>
-        <p>
-          24h Volume:{" "}
-          {FormatMarketCap(parseFloat(coin.approximate_quote_24h_volume))}
-        </p>
-        <p>Status: {coin.status}</p>
-        <p>About: {coin.about_description || "No description available."}</p>
-      </div> */}
-    </Drawer>
+      <List
+        className="crypto-drawer-list"
+        dataSource={getCoinDrawerData(coin, currency, livePriceData)}
+        renderItem={(item) => (
+          <List.Item key={item.key} className="crypto-drawer-list-item">
+            <div className="crypto-drawer-stats">
+              {<Avatar> {item.icon}</Avatar>}
+              {item.label}
+            </div>
+            <div>{item.value}</div>
+          </List.Item>
+        )}
+      />
+    </div>
   );
 };
 

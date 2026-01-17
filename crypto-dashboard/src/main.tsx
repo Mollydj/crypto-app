@@ -4,6 +4,7 @@ import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CurrencyProvider } from "./Utils/CurrencyContext";
+import { EnableLivePricesProvider } from "./Utils/EnableLivePricesContext";
 const queryClient = new QueryClient();
 
 // Custom colors
@@ -28,14 +29,13 @@ const customTheme = {
     Switch: {
       colorPrimary: primaryColor,
       colorPrimaryHover: primaryColor,
-      colorBgContainer: '#686767',
+      colorBgContainer: "#686767",
       colorBorder: primaryColor,
       colorBgHover: primaryColor,
       colorBgActive: primaryColor,
       colorTextLightSolid: backgroundColor,
     },
     Button: {
-      
       colorText: backgroundColor,
       colorPrimary: primaryColor,
       colorBgContainer: primaryColor,
@@ -65,20 +65,22 @@ if (!rootElement) throw new Error("Root element not found");
 // Cast JSX to ReactNode for TS safety
 const appNode = (
   <CurrencyProvider>
-    <QueryClientProvider client={queryClient}>
-      <ConfigProvider
-        theme={{
-          algorithm: theme.darkAlgorithm,
-          token: { fontFamily: "VT323, monospace" },
-          components: customTheme.components,
-        }}
-      >
-        <App />
-      </ConfigProvider>
-    </QueryClientProvider>
+    <EnableLivePricesProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+            token: { fontFamily: "VT323, monospace" },
+            components: customTheme.components,
+          }}
+        >
+          <App />
+        </ConfigProvider>
+      </QueryClientProvider>
+    </EnableLivePricesProvider>
   </CurrencyProvider>
 ) as React.ReactNode;
 
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>{appNode}</React.StrictMode>
+  <React.StrictMode>{appNode}</React.StrictMode>,
 );

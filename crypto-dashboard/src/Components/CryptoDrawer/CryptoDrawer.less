@@ -1,13 +1,9 @@
 @import "../../variables.less";
 
-.ant-drawer-section {
-  background-color: var(--background) !important;
-}
 .crypto-drawer-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // background-color: antiquewhite;
 }
 
 .section-title {
@@ -16,4 +12,48 @@
   font-size: 18px;
   display: flex;
   align-items: center;
+}
+
+.drawer-test {
+  padding: 0px 20px 0px 20px;
+  width: 100%;
+}
+
+ul.ant-list-items {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+li.ant-list-item {
+  padding: 12px 0px;
+  color: @primary-color;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+// ANTD AVATAR STYLES
+
+.crypto-drawer-stats {
+  color: antiquewhite;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+// UP/DOWN STYLES
+.negative {
+  color: @danger-color;
+}
+
+.positive {
+  color: @secondary-text-color;
+}
+
+.crypto-buy-sell-button {
+  background-color: @primary-color;
+  // border:
 }

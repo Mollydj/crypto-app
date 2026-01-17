@@ -9,14 +9,16 @@ import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 import { CoinbaseProduct } from "./types";
 import CryptoCard from "./Components/CryptoCard/CryptoCard";
 import { queryClient } from "./Utils/queryClient";
-import { fetchCoinbaseProductById } from "./Hooks/useCoinbaseProductById";
 import { CryptoProvider } from "./Utils/CryptoContext";
+import { EnableLivePricesContext } from "./Utils/EnableLivePricesContext";
+import { fetchCoinbaseProductById } from "./Hooks/useCoinbaseProductById";
 
 function App() {
-  const [enableLivePrices, setEnableLivePrices] = useState<boolean>(true);
+  const { enableLivePrices, setEnableLivePrices } = EnableLivePricesContext();
   const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<Date>(
     new Date(),
   );
+  
   const { data: coins = [], isLoading = true } = useCoinbaseProducts() as {
     data: CoinbaseProduct[];
     isLoading: boolean;
@@ -24,7 +26,6 @@ function App() {
 
   if (!coins) return null;
   const productIds = coins.map((item: CoinbaseProduct) => item.product_id);
-  console.log("coinIds>>", productIds);
   const prefetchTop20Coins = async () => {
     if (!coins?.length) return;
 
@@ -34,10 +35,10 @@ function App() {
           const data = await queryClient.prefetchQuery<CoinbaseProduct, Error>({
             queryKey: [coin.product_id],
             queryFn: () =>
-              fetchCoinbaseProductById({ queryKey: [coin.product_id] }),
+              fetchCoinbaseProductById(coin.product_id),
             staleTime: 1000 * 60 * 5,
           });
-          console.log(`Prefetched ${coin.product_id}`, data);
+          console.log(`Prefetched Coin Data: ${coin.product_id}`, data);
         } catch (err) {
           console.error(`Failed to prefetch ${coin.product_id}`, err);
         }
@@ -50,11 +51,9 @@ function App() {
     prefetchTop20Coins();
   }, [coins]);
 
-  console.log("coins>>", coins);
-
   return (
     <Layout
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      // style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
       <Header>
         <Switch
@@ -73,21 +72,20 @@ function App() {
         {/* <SelectCryptoCurrency /> */}
         <div className="content-section">
           <span className="content-section-title">
-            <h2 className="section-title">
+            {/* <h2 className="section-title">
               Top Movers{" "}
               <Tooltip title="test">
                 <InfoCircleOutlined />
               </Tooltip>
               {lastFetchedTimestamp && (
                 <span className="refresh-interval">
-                  {/* <Spin indicator={<LoadingOutlined spin />} size="small" /> */}
                   {lastFetchedTimestamp && !enableLivePrices
                     ? "last update: " +
                       lastFetchedTimestamp.toLocaleTimeString()
                     : "live updates"}
                 </span>
               )}
-            </h2>
+            </h2> */}
           </span>
           {
             <CryptoProvider
@@ -95,10 +93,8 @@ function App() {
               enableLivePrices={enableLivePrices}
             >
               <CryptoCard
-                // props={props}
                 isLoading={isLoading}
                 coins={coins}
-                // currency={currency}
               />
             </CryptoProvider>
           }

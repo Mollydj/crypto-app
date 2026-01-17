@@ -14,11 +14,11 @@ import { CoinbaseProduct, placeholderCoin } from "../../types";
 import { FormatMarketCap } from "../../Utils/formatMarketCap";
 import NumberFlow from "@number-flow/react";
 import { useTickerPrice } from "../../Utils/TickerContext";
-import { useCurrency } from "../../Utils/CurrencyContext";
+import { CurrencyType, useCurrency } from "../../Utils/CurrencyContext";
 
 interface CardProps {
   coins: CoinbaseProduct[];
-  currency: string;
+  currency: CurrencyType;
   isLoading: boolean;
   livePrices: Record<string, number>;
 }
@@ -94,7 +94,6 @@ const CryptoCard: React.FC<CardProps> = ({ coins = [], isLoading }) => {
                   <EllipsisOutlined />
                 </Button> */}
                   </div>
-
                   <div className="crypto-card-price-container">
                     <NumberFlow
                       willChange

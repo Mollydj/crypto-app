@@ -1,10 +1,11 @@
 export interface CoinbaseProduct {
-  price_difference: string;
-  price_difference_percent: string;
+  price_difference: string | number;
+  price_difference_percent: string | number;
+  side: string;
   product_id: string;
   price: string;
-  price_percentage_change_24h: string;
-  volume_24h: string;
+  price_percentage_change_24h: string | number;
+  volume_24h: string | number;
   volume_percentage_change_24h: string;
   base_increment: string;
   quote_increment: string;
@@ -36,7 +37,7 @@ export interface CoinbaseProduct {
   price_increment: string | number;
   display_name: string;
   product_venue: string;
-  approximate_quote_24h_volume: string;
+  approximate_quote_24h_volume: string | number;
   new_at: string;
   market_cap: string;
   base_cbrn: string;
@@ -54,6 +55,7 @@ export interface CoinbaseProduct {
 export const placeholderCoin: CoinbaseProduct = {
   price_difference: "0.00",
   price_difference_percent: "0.00",
+  side: "Buy",
   product_id: "",
   price: "0000.00",
   price_percentage_change_24h: "0",
