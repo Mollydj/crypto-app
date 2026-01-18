@@ -1,8 +1,7 @@
-// CryptoContext.tsx
 import {
   useContext,
 } from "react";
-import { CryptoContext } from "./CryptoContext";
+import { CryptoContext } from "../Contexts/CryptoContext";
 
 export const useTickerPrice = () => {
   const prices = useContext(CryptoContext);

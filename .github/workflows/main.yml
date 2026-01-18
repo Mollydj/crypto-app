@@ -25,6 +25,10 @@ jobs:
         working-directory: crypto-dashboard
         run: yarn install
 
+      - name: Run ESLint
+        working-directory: crypto-dashboard
+        run: yarn lint
+
       - name: Build
         working-directory: crypto-dashboard
         run: yarn build

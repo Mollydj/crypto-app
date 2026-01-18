@@ -3,7 +3,7 @@
 
 :root {
   .ant-pagination .ant-pagination-item a:hover {
-    color: @secondary-color;
+    color: @secondary-background-color;
   }
   .ant-btn {
     box-shadow: none;
@@ -14,7 +14,7 @@
   }
   .ant-pagination .ant-pagination-prev button:hover,
   .ant-pagination .ant-pagination-next button:hover {
-    color: @secondary-color;
+    color: @secondary-background-color;
     background-color: none;
   }
   .--ant-button-default-shadow {
@@ -23,10 +23,8 @@
   }
 }
 
-@pagination-item-active-color-hover: #ff4d4f;
 
 #root {
-  // height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -57,9 +55,9 @@ body {
 }
 .ant-layout-header {
   display: flex;
-  padding: 0px;
+  padding: @size-none;
   justify-content: space-between;
-  padding: 20px;
+  padding: @size-xl;
   align-items: center;
   align-content: center;
   background-color: inherit;
@@ -68,39 +66,21 @@ body {
 a {
   color: @primary-color;
 }
-a:hover, a:active {
-  color: @secondary-text-color;
-}
 
 .ant-layout-content {
   div.select-currency {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: @box-padding-l;
-    margin-bottom: @box-padding-l;
-    gap: @box-padding-m;
+    padding: @size-l;
+    margin-bottom: @size-l;
+    gap: @size-med;
   }
 
   // CRYPTO CARDS SECTION
   div.content-section {
-    padding: @box-padding-l;
-    
-    .content-section-title {
-      .refresh-interval {
-        color: @secondary-text-color;
-        display: flex;
-        height: 100%;
-        font-size: 12px;
-      }
-    }
-    h2.section-title {
-      // background-color: saddlebrown;
-      gap: 8px;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-    }
+    padding: @size-l;
+  
   }
   .card-container {
     overflow: auto;
@@ -112,36 +92,37 @@ a:hover, a:active {
     }
   }
 
-  // div.crypto-card,
   div.ant-skeleton {
-    margin-right: @box-padding-m;
+    margin-right: @size-med;
     width: 200px;
     height: 230px;
-    // border-radius: 8px;
     background-color: none;
-    // flex: 0 0 200px;
   }
 }
 
 .ant-layout-footer {
   position: relative;
-  bottom: 0px;
+  bottom: @size-none;
   display: flex;
-  margin-top: 20px;
+  margin-top: @size-xl;
   color: @background-color;
   align-items: center;
   justify-content: space-between;
-  padding: @box-padding-m;
+  padding: @size-med;
   .resources {
-    gap: 8px;
+    gap: @primary-gap;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    padding: @box-padding-l;
+    padding: @size-l;
   }
 }
 
 
 .ant-avatar {
   background-color: #444;
+}
+
+.ant-message-notice-content {
+  background-color: saddlebrown;
 }

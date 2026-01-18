@@ -3,23 +3,40 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CurrencyProvider } from "./Utils/CurrencyContext";
-import { EnableLivePricesProvider } from "./Utils/EnableLivePricesContext";
+import { CurrencyProvider } from "./Contexts/CurrencyContext";
+import { EnableLivePricesProvider } from "./Contexts/EnableLivePricesContext";
 const queryClient = new QueryClient();
 
-// Custom colors
-const primaryColor = "#00ff00";
-const backgroundColor = "#242424";
-const secondaryColor = "#FAEBD7";
+// CUSTOM COLORS
+export const primaryColor = "#00ff00";
+export const backgroundColor = "#242424";
+export const secondaryBackgroundColor = "#686767";
+export const secondaryTextColor = "#FAEBD7";
+export const dangerColor = "#ff4d4d";
 
 const customTheme = {
   components: {
+    Message: {
+      contentBg: primaryColor,
+      colorText: backgroundColor,
+      colorSuccess: backgroundColor,
+      colorError: dangerColor,
+    },
+    Tooltip: {
+      colorBgSpotlight: primaryColor,
+      colorTextLightSolid: backgroundColor,
+      fontSize: 12,
+    },
+    Segmented: {
+      itemColor: secondaryTextColor,
+      colorText: primaryColor,
+    },
     Pagination: {
       itemActiveColor: primaryColor,
       colorPrimary: primaryColor,
       colorBgTextHover: primaryColor,
       colorPrimaryHover: primaryColor,
-      itemActiveColorHover: secondaryColor,
+      itemActiveColorHover: secondaryTextColor,
     },
     Layout: {
       bodyBg: backgroundColor,
@@ -29,7 +46,7 @@ const customTheme = {
     Switch: {
       colorPrimary: primaryColor,
       colorPrimaryHover: primaryColor,
-      colorBgContainer: "#686767",
+      colorBgContainer: secondaryBackgroundColor,
       colorBorder: primaryColor,
       colorBgHover: primaryColor,
       colorBgActive: primaryColor,
@@ -61,22 +78,20 @@ const customTheme = {
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
-
-// Cast JSX to ReactNode for TS safety
 const appNode = (
   <CurrencyProvider>
     <EnableLivePricesProvider>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
-            token: { fontFamily: "VT323, monospace" },
-            components: customTheme.components,
-          }}
-        >
+      <ConfigProvider
+        theme={{
+          algorithm: theme.darkAlgorithm,
+          token: { fontFamily: "VT323, monospace" },
+          components: customTheme.components,
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
           <App />
-        </ConfigProvider>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </ConfigProvider>
     </EnableLivePricesProvider>
   </CurrencyProvider>
 ) as React.ReactNode;

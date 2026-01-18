@@ -1,4 +1,4 @@
-import { useCurrency } from "./CurrencyContext";
+import { useCurrency } from "../Contexts/CurrencyContext";
 
 export function FormatMarketCap(value: number): string {
   const { currency } = useCurrency();

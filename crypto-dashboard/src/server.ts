@@ -35,10 +35,8 @@ app.use(
       console.warn("⚠️ Origin not in allowlist:", normalizedOrigin);
       return callback(null, true);
     },
-  })
+  }),
 );
-
-// app.options('*', cors());
 
 const KEY_SECRET = process.env.COINBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
@@ -61,8 +59,8 @@ function generateJWT() {
 
 const token = generateJWT();
 
+// TODO RENAME THIS CALL
 app.get("/api/marketcap", async (_req, res) => {
-  // const { currency = "USD" } = _req.query;
   try {
     const coinbaseResponse = await axios.get(
       "https://api.coinbase.com/api/v3/brokerage/market/products?product_type=UNKNOWN_PRODUCT_TYPE&contract_expiry_type=UNKNOWN_CONTRACT_EXPIRY_TYPE&expiring_contract_status=UNKNOWN_EXPIRING_CONTRACT_STATUS&products_sort_order=PRODUCTS_SORT_ORDER_VOLUME_24H_DESCENDING",
@@ -70,7 +68,7 @@ app.get("/api/marketcap", async (_req, res) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     res.json(coinbaseResponse.data);
@@ -82,8 +80,9 @@ app.get("/api/marketcap", async (_req, res) => {
   }
 });
 
+// TODO RENAME THIS CALL
 app.get("/api/marketcapid", async (_req, res) => {
-  const { coin } = _req.query; // e.g. BTC-USD
+  const { coin } = _req.query;
   try {
     const response = await axios.get(
       `https://api.coinbase.com/api/v3/brokerage/market/products/${coin}`,
@@ -91,7 +90,7 @@ app.get("/api/marketcapid", async (_req, res) => {
         headers: {
           Authorization: `Bearer ${process.env.COINBASE_API_TOKEN}`,
         },
-      }
+      },
     );
     res.json(response.data);
     console.log("SUCCESS: BTC-USD fetched");
@@ -102,48 +101,9 @@ app.get("/api/marketcapid", async (_req, res) => {
   }
 });
 
-app.get("/api/cryptoImage", async (req, res) => {
-  // @ts-ignore
-  // const coinSymbol = req.query.coin?.toLowerCase();
-  const coinSymbol = "bitcoin";
-  const apiUrl = `https://api.coingecko.com/api/v3/coins/${coinSymbol}`;
-  const apiKey = process.env.VITE_COINGECKO_API_KEY_FREE; // optional, if using Pro API
-
-  try {
-    const response = await axios.get(apiUrl, {
-      params: {
-        localization: false,
-        tickers: false,
-        market_data: false,
-        community_data: false,
-        developer_data: false,
-        sparkline: false,
-      },
-      headers: {
-        "x-cg-pro-api-key": apiKey,
-      },
-    });
-
-    // Extract large image, fallback if missing
-    const coinImage = response.data?.image?.large;
-    console.log("RESPONSE>>", response);
-    res.json({ coin: coinSymbol, coinImage });
-    console.log("SUCCESS IMAGES");
-    // @ts-ignore
-  } catch (err: unknown) {
-    // @ts-ignore
-    console.error("Error fetching coin image:", err.message || err);
-    // fallback even on error
-    res.json({
-      coin: coinSymbol,
-      coinImage: `https://cryptoicons.org/api/icon/${coinSymbol}/200`,
-    });
-  }
-});
-
 const PORT = process.env.PORT || 3001;
 console.log("PORT>>", PORT);
 // @ts-ignore
 app.listen(PORT, "0.0.0.0", () =>
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`),
 );

@@ -1,40 +1,89 @@
-// CryptoCard.tsx
 import React, { useEffect, useState } from "react";
 import "./CryptoCard.less";
-import { Avatar, List } from "antd";
-import {
-  TransactionOutlined,
-} from "@ant-design/icons";
+import { List } from "antd";
 import CryptoDrawer from "../CryptoDrawer/CryptoDrawer";
 import { CoinbaseProduct, placeholderCoin } from "../../types";
 import NumberFlow from "@number-flow/react";
-import { useTickerPrice } from "../../Utils/TickerContext";
-import { CurrencyContextType, useCurrency } from "../../Utils/CurrencyContext";
+import {
+  CurrencyContextType,
+  useCurrency,
+} from "../../Contexts/CurrencyContext";
+import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext";
+import { useTickerPrice } from "../../Contexts/TickerContext";
+import CryptoTooltip from "../CryptoTooltip/CryptoTooltip";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 interface CardProps {
   coins: CoinbaseProduct[];
   currency: CurrencyContextType;
   isLoading: boolean;
   livePrices: Record<string, number>;
+  messageApi: unknown;
+  lastFetchedTimestamp: string;
 }
 
 const position = "bottom";
 const align = "center";
 
-const CryptoCard: React.FC<CardProps> = ({ coins = [], isLoading }) => {
+const CryptoCard: React.FC<CardProps> = ({
+  coins = [],
+  isLoading,
+  lastFetchedTimestamp,
+}) => {
   const [selectedCoin, setSelectedCoin] = useState<string>(
     placeholderCoin.product_id,
   );
+  const [lastLiveUpdate, setLastLiveUpdate] = useState<string>("");
   const { currency } = useCurrency();
+  const { enableLivePrices } = EnableLivePricesContext();
   const livePrices = useTickerPrice();
+
+  const getLastLiveUpdateTimestamp = (timestamp: string) => {
+    const secondsAgo = dayjs().diff(dayjs(timestamp), "seconds");
+    const minutesAgo = dayjs().diff(dayjs(timestamp), "minutes");
+    const hoursAgo = dayjs().diff(dayjs(timestamp), "hours");
+
+    if (secondsAgo < 10) return 'Just now';
+    if (secondsAgo < 60) return `${secondsAgo}s ago`;
+    if (minutesAgo < 60) return `${minutesAgo}m ago`;
+    return `${hoursAgo}h ago`;
+  };
+
   useEffect(() => {
-    setSelectedCoin(coins[0].product_id);
+    if (!lastFetchedTimestamp) return;
+
+    setLastLiveUpdate(getLastLiveUpdateTimestamp(lastFetchedTimestamp));
+
+    const interval = setInterval(() => {
+      setLastLiveUpdate(getLastLiveUpdateTimestamp(lastFetchedTimestamp));
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [lastFetchedTimestamp]);
+
+  useEffect(() => {
+    setSelectedCoin(coins[0]?.product_id);
   }, [coins]);
   if (!coins || coins.length === 0) return null;
 
   return (
     <div className="card-container">
       <div className="card-content-wrapper">
+        <div className="section-title">
+          <h2>
+            Top Movers{" "}
+            <CryptoTooltip title="Top 20 products in the selected currency, excluding USDC. By default, products are sorted by 24-hour volume (quote currency) descending.">
+              <InfoCircleOutlined />
+            </CryptoTooltip>
+          </h2>
+          {lastFetchedTimestamp && (
+            <span className="refresh-interval">
+              {lastFetchedTimestamp && !enableLivePrices
+                ? "last update: " + lastLiveUpdate
+                : "live updates"}
+            </span>
+          )}
+        </div>
         <List
           loading={isLoading}
           pagination={{ position, align }}
@@ -52,42 +101,30 @@ const CryptoCard: React.FC<CardProps> = ({ coins = [], isLoading }) => {
                 <div className="crypto-card-coin-header">
                   <div className="crypto-card-name">
                     <div className="crypto-card-avatar-container">
-                      <Avatar size={20}>
+                      {/* <Avatar size={20}>
                         <TransactionOutlined size={18} />
-                      </Avatar>
+                      </Avatar> */}
                       <p>{coin.base_name}</p>
                     </div>
-                    <span
-                      className={
-                        Number(coin.price_percentage_change_24h) < 0
-                          ? "negative"
-                          : "positive"
-                      }
-                    >
+                    {/* TODO: ADD COLOR HERE FOR NEGATIVE NUMBERS */}
+                    <CryptoTooltip title="This metric indicates the % change in price over the previous 24 hours">
                       <NumberFlow
                         willChange
                         animated
+                        className={
+                          livePriceTwentyFourHourPercentage / 100 > 0
+                            ? "positive"
+                            : "negative"
+                        }
                         value={livePriceTwentyFourHourPercentage / 100}
                         format={{
-                          style: "percent", // format as %
+                          style: "percent",
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                           signDisplay: "always",
                         }}
                       />
-                      {/* {livePriceTwentyFourHourPercentage > 0 ? "+" : ""}
-                      {livePriceTwentyFourHourPercentage
-                        ? `${Number(livePriceTwentyFourHourPercentage).toFixed(2)}%`
-                        : "No Market Data"} */}
-                      <br />
-                      {/* <InfoCircleOutlined color="#000000" /> */}
-                    </span>
-                    {/* <Button
-                  className="card-expand-button"
-                  onClick={() => setSelectedCoin(coin.product_id)}
-                >
-                  <EllipsisOutlined />
-                </Button> */}
+                    </CryptoTooltip>
                   </div>
                   <div className="crypto-card-price-container">
                     <NumberFlow

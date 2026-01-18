@@ -1,4 +1,3 @@
-// CryptoChart.tsx
 import React, { useEffect, useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Line } from "react-chartjs-2";
@@ -15,11 +14,12 @@ import {
   TimeScale,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import { useTickerPrice } from "../../Utils/TickerContext";
 import { CoinbaseProduct } from "../../types";
-import { EnableLivePricesContext } from "../../Utils/EnableLivePricesContext";
+import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext";
 import "./CryptoChart.less";
-import { useCurrency } from "../../Utils/CurrencyContext";
+import { useCurrency } from "../../Contexts/CurrencyContext";
+import { useTickerPrice } from "../../Contexts/TickerContext";
+import { secondaryTextColor } from "../../main";
 
 ChartJS.register(
   CategoryScale,
@@ -96,15 +96,15 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ coin }) => {
     plugins: {
       legend: { display: false },
       datalabels: {
-        color: "white",
+        color: secondaryTextColor,
         align: "top",
         formatter: (value: number) => `$${Math.round(value).toLocaleString()}`,
       },
       tooltip: {
         enabled: true,
-        titleColor: "white",
+        titleColor: "antiquewhite",
         font: { size: 14, family: "VT323, monospace", weight: "bold" },
-        bodyColor: "white",
+        bodyColor: "antiquewhite",
         callbacks: {
           label: function (tooltipItem: { raw: { y: string } }) {
             return `$${tooltipItem.raw.y.toLocaleString()}`;
@@ -118,7 +118,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ coin }) => {
     scales: {
       y: {
         ticks: {
-          color: "white",
+          color: "antiquewhite",
           font: { size: 14, family: "VT323, monospace", weight: "bold" },
           callback: (value: number) =>
             value.toLocaleString(undefined, {
@@ -133,8 +133,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ coin }) => {
         type: "time" as const,
         time: { unit: "second" },
         ticks: {
-          // display: false,
-          color: "white",
+          color: "antiquewhite",
           callback: (value: string) => {
             const secondsAgo = dayjs().diff(dayjs(value), "seconds");
             const minutesAgo = dayjs().diff(dayjs(value), "minute");

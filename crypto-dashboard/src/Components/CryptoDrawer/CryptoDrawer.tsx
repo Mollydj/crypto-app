@@ -1,12 +1,13 @@
 import React from "react";
 import "./CryptoDrawer.less";
-import { Avatar, Button, List, Segmented } from "antd";
+import { Avatar, Button, List } from "antd";
 import { useCoinbaseProductById } from "../../Hooks/useCoinbaseProductById";
-import { useTickerPrice } from "../../Utils/TickerContext";
 import { placeholderCoin } from "../../types";
 import CryptoChart from "../CryptoChart/CryptoChart";
 import { getCoinDrawerData } from "./DrawerStatistics";
-import { useCurrency } from "../../Utils/CurrencyContext";
+import { useCurrency } from "../../Contexts/CurrencyContext";
+import SelectCurrency from "../SelectCurrency/SelectCurrency";
+import { useTickerPrice } from "../../Contexts/TickerContext";
 
 interface CardProps {
   productId: string;
@@ -15,7 +16,7 @@ interface CardProps {
 
 const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
   const { data: coin, isLoading, error } = useCoinbaseProductById(productId);
-  const { currency, setCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const livePrices = useTickerPrice();
   const buySellOnCoinbase = `https://www.coinbase.com/price/${coin.base_display_symbol.toLowerCase()}?locale=${currency.toLowerCase()}`;
 
@@ -29,13 +30,7 @@ const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
       <span className="crypto-drawer-title">
         <h1>{coin.display_name}</h1>
         <div className="crypto-drawer-change">
-                  <Segmented<string>
-          options={["EUR", "GBP", "USD"]}
-          value={currency}
-          onChange={(value) => {
-            setCurrency(value);
-          }}
-        />
+          <SelectCurrency />
           <Button
             className="crypto-buy-sell-button"
             onClick={() => window.open(buySellOnCoinbase, "_blank")}

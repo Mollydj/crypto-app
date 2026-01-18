@@ -1,4 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+
+export type CurrencyType = "EUR" | "GBP" | "USD";
+
 export interface CurrencyContextType {
   currency: "EUR" | "GBP" | "USD";
   setCurrency: (currency: "EUR" | "GBP" | "USD") => void;

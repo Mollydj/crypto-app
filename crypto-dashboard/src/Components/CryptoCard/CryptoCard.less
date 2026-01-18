@@ -1,22 +1,21 @@
 @import "../../variables.less";
 
 .card-content-wrapper > .ant-list {
-  width: 300px;
+  width: 350px;
 }
 
 // PAGINATION STYLING
 ul.ant-list-items {
   width: 100%;
-  // width: 400px;
-  gap: 8px;
+  gap: @primary-gap;
   display: flex;
   flex-direction: column;
   li.ant-list-item {
     cursor: pointer;
     background-color: var(--background);
     display: flex;
-    padding: 0px 10px 4px 10px;
-    color: #00ff00;
+    padding: @size-none @size-small @size-xxs @size-small;
+    color: @primary-color;
   }
 }
 
@@ -25,9 +24,9 @@ ul.ant-list-items {
 }
 
 .ant-list .ant-list-pagination {
-  padding: 12px 8px;
-  margin-top: 0px;
-  margin-block-start: 0px;
+  padding: @size-med @size-xs;
+  margin-top: @size-none;
+  margin-block-start: @size-none;
   writing-mode: horizontal-tb;
 }
 
@@ -44,14 +43,14 @@ ul.ant-list-items {
         justify-content: flex-start;
         align-items: center;
         p {
-          color: antiquewhite;
+          color: @secondary-text-color;
           display: block;
           flex: 1;
           text-align: left;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          margin-left: 8px;
+          margin-left: @size-xs;
         }
       }
       display: flex;
@@ -61,7 +60,25 @@ ul.ant-list-items {
     }
     .crypto-card-price-container {
       text-align: end;
-      font-size: 20px;
+      font-size: @size-xl;
     }
   }
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .refresh-interval {
+    color: @tertiary-text-color;
+    display: flex;
+    height: 100%;
+    font-size: @size-med;
+  }
+}
+h2.section-title {
+  gap: @primary-gap;
+  font-size: 1@size-xs;
+  display: flex;
+  align-items: center;
 }

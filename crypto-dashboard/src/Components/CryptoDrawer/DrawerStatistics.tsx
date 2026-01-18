@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { CoinWithCoinbaseNormalized } from "../../Hooks/useCoinbaseProductById";
 import { CoinbaseProduct } from "../../types";
-import { CurrencyContextType } from "../../Utils/CurrencyContext";
+import { CurrencyContextType } from "../../Contexts/CurrencyContext";
 import NumberFlow from "@number-flow/react";
 
 export type FormatType = "currency" | "percent" | "raw";
@@ -20,27 +20,6 @@ export interface DrawerStat {
   icon: React.ReactNode;
   format?: FormatType;
 }
-
-// Utility function to format value based on the format flag
-export const formatDrawerValue = (
-  item: DrawerStat,
-): string | React.ReactNode => {
-  if (item.format === "currency") {
-    if (typeof item.value === "number") {
-      return `$${item.value.toLocaleString()}`;
-    }
-    return item.value;
-  }
-
-  if (item.format === "percent") {
-    if (typeof item.value === "number" || !isNaN(Number(item.value))) {
-      return `${Number(item.value).toFixed(2)}%`;
-    }
-    return item.value;
-  }
-
-  return item.value;
-};
 
 export const getCoinDrawerData = (
   coin: CoinbaseProduct,
@@ -56,9 +35,6 @@ export const getCoinDrawerData = (
   const quoteVolume24h =
     livePriceData?.approximate_quote_24h_volume ??
     coin.approximate_quote_24h_volume;
-
-    console.log('currency>>', currency);
-
   return [
     {
       label: `Price (${currency})`,
@@ -84,7 +60,8 @@ export const getCoinDrawerData = (
         <NumberFlow
           willChange
           animated
-          value={priceChange/100}
+          className={priceChange / 100 > 0 ? "positive" : "negative"}
+          value={priceChange / 100}
           format={{
             style: "percent",
             minimumFractionDigits: 2,

@@ -6,16 +6,8 @@
   justify-content: space-between;
 }
 
-.section-title {
-  color: @primary-color;
-  gap: 8px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-}
-
 .drawer-test {
-  padding: 0px 20px 0px 20px;
+  padding: @size-none @size-xl @size-none @size-xl;
   width: 100%;
 }
 
@@ -27,7 +19,7 @@ ul.ant-list-items {
 }
 
 li.ant-list-item {
-  padding: 12px 0px;
+  padding: @size-med @size-none;
   color: @primary-color;
   width: 100%;
   display: flex;
@@ -40,7 +32,7 @@ li.ant-list-item {
   color: antiquewhite;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: @primary-gap;
 }
 
 // UP/DOWN STYLES
@@ -59,5 +51,9 @@ li.ant-list-item {
 
 .crypto-drawer-change {
   display: flex;
-  gap: 8px;
+  gap: @primary-gap;
+
+  .ant-segmented {
+    background-color: @secondary-background-color;
+  }
 }
