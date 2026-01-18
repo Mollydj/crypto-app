@@ -7,9 +7,9 @@ import NumberFlow from "@number-flow/react";
 import {
   CurrencyContextType,
   useCurrency,
-} from "../../Contexts/CurrencyContext";
-import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext";
-import { useTickerPrice } from "../../Contexts/TickerContext";
+} from "../../Contexts/CurrencyContext/CurrencyContext";
+import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext/EnableLivePricesContext";
+import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import CryptoTooltip from "../CryptoTooltip/CryptoTooltip";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState, ReactNode } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { CoinbaseProductNormalized } from "../Hooks/useCoinbaseProductById";
+import { CoinbaseProductNormalized } from "../../Hooks/useCoinbaseProductById";
 
 interface CryptoProviderProps {
   children: ReactNode;

@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { CoinWithCoinbaseNormalized } from "../../Hooks/useCoinbaseProductById";
 import { CoinbaseProduct } from "../../types";
-import { CurrencyContextType } from "../../Contexts/CurrencyContext";
+import { CurrencyContextType } from "../../Contexts/CurrencyContext/CurrencyContext";
 import NumberFlow from "@number-flow/react";
 
 export type FormatType = "currency" | "percent" | "raw";

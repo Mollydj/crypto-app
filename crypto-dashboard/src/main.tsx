@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CurrencyProvider } from "./Contexts/CurrencyContext";
-import { EnableLivePricesProvider } from "./Contexts/EnableLivePricesContext";
+import { CurrencyProvider } from "./Contexts/CurrencyContext/CurrencyContext";
+import { EnableLivePricesProvider } from "./Contexts/EnableLivePricesContext/EnableLivePricesContext";
 const queryClient = new QueryClient();
 
 // CUSTOM COLORS

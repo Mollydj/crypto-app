@@ -7,10 +7,10 @@ import { GithubFilled } from "@ant-design/icons";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 import { CoinbaseProduct } from "./types";
 import CryptoCard from "./Components/CryptoCard/CryptoCard";
-import { CryptoProvider } from "./Contexts/CryptoContext";
-import { EnableLivePricesContext } from "./Contexts/EnableLivePricesContext";
-import { MessageContext } from "./Contexts/MessageContext";
-import { useCurrency } from "./Contexts/CurrencyContext";
+import { CryptoProvider } from "./Contexts/CryptoContext/CryptoContext";
+import { EnableLivePricesContext } from "./Contexts/EnableLivePricesContext/EnableLivePricesContext";
+import { MessageContext } from "./Contexts/MessagesContext/MessageContext";
+import { useCurrency } from "./Contexts/CurrencyContext/CurrencyContext";
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();

@@ -5,9 +5,9 @@ import { useCoinbaseProductById } from "../../Hooks/useCoinbaseProductById";
 import { placeholderCoin } from "../../types";
 import CryptoChart from "../CryptoChart/CryptoChart";
 import { getCoinDrawerData } from "./DrawerStatistics";
-import { useCurrency } from "../../Contexts/CurrencyContext";
+import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 import SelectCurrency from "../SelectCurrency/SelectCurrency";
-import { useTickerPrice } from "../../Contexts/TickerContext";
+import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 
 interface CardProps {
   productId: string;

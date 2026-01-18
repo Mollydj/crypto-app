@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../Utils/handleEvents";
 import { CoinbaseProduct, placeHolderTop20Coins } from "../types";
-import { CurrencyType, useCurrency } from "../Contexts/CurrencyContext";
+import { CurrencyType, useCurrency } from "../Contexts/CurrencyContext/CurrencyContext";
 
 export type sorter = {
   price: string;

@@ -15,10 +15,10 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { CoinbaseProduct } from "../../types";
-import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext";
+import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext/EnableLivePricesContext";
 import "./CryptoChart.less";
-import { useCurrency } from "../../Contexts/CurrencyContext";
-import { useTickerPrice } from "../../Contexts/TickerContext";
+import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
+import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import { secondaryTextColor } from "../../main";
 
 ChartJS.register(

@@ -1,7 +1,7 @@
 import React from "react";
 import { Segmented } from "antd";
-import { CurrencyType, useCurrency } from "../../Contexts/CurrencyContext";
-import { useMessageApi } from "../../Contexts/MessageContext";
+import { CurrencyType, useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
+import { useMessageApi } from "../../Contexts/MessagesContext/MessageContext";
 
 const SelectCurrency: React.FC = () => {
   const { currency, setCurrency } = useCurrency();
