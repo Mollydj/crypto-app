@@ -29,6 +29,13 @@ const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
       <span className="crypto-drawer-title">
         <h1>{coin.display_name}</h1>
         <div className="crypto-drawer-change">
+                  <Segmented<string>
+          options={["EUR", "GBP", "USD"]}
+          value={currency}
+          onChange={(value) => {
+            setCurrency(value);
+          }}
+        />
           <Button
             className="crypto-buy-sell-button"
             onClick={() => window.open(buySellOnCoinbase, "_blank")}
@@ -40,13 +47,6 @@ const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
       <br />
       <div>
         <CryptoChart coin={coin} productId={productId} />
-        <Segmented<string>
-          options={["EUR", "GBP", "USD"]}
-          value={currency}
-          onChange={(value) => {
-            setCurrency(value);
-          }}
-        />
       </div>
       <h3>{coin.base_name} Statistics</h3>
 
