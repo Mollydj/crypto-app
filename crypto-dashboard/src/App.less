@@ -65,6 +65,13 @@ body {
   background-color: inherit;
 }
 
+a {
+  color: @primary-color;
+}
+a:hover, a:active {
+  color: @secondary-text-color;
+}
+
 .ant-layout-content {
   div.select-currency {
     display: flex;
@@ -126,7 +133,7 @@ body {
   justify-content: space-between;
   padding: @box-padding-m;
   .resources {
-    flex: 0.4;
+    gap: 8px;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;

@@ -18,7 +18,7 @@ function App() {
   const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<Date>(
     new Date(),
   );
-  
+
   const { data: coins = [], isLoading = true } = useCoinbaseProducts() as {
     data: CoinbaseProduct[];
     isLoading: boolean;
@@ -34,8 +34,7 @@ function App() {
         try {
           const data = await queryClient.prefetchQuery<CoinbaseProduct, Error>({
             queryKey: [coin.product_id],
-            queryFn: () =>
-              fetchCoinbaseProductById(coin.product_id),
+            queryFn: () => fetchCoinbaseProductById(coin.product_id),
             staleTime: 1000 * 60 * 5,
           });
           console.log(`Prefetched Coin Data: ${coin.product_id}`, data);
@@ -53,7 +52,7 @@ function App() {
 
   return (
     <Layout
-      // style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    // style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
       <Header>
         <Switch
@@ -66,7 +65,13 @@ function App() {
           unCheckedChildren="Live Updates Off"
         />
         <h1>Crypto-graphy</h1>
-        <p>test</p>
+        <a
+          href="https://github.com/Mollydj/crypto-app/blob/main/README.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          README.md
+        </a>
       </Header>
       <Content>
         {/* <SelectCryptoCurrency /> */}
@@ -92,10 +97,7 @@ function App() {
               coinIds={productIds}
               enableLivePrices={enableLivePrices}
             >
-              <CryptoCard
-                isLoading={isLoading}
-                coins={coins}
-              />
+              <CryptoCard isLoading={isLoading} coins={coins} />
             </CryptoProvider>
           }
         </div>
@@ -105,7 +107,12 @@ function App() {
           <div>
             <p>
               Designed and coded by{" "}
-              <CryptoButton variant="dashed">
+              <CryptoButton
+                variant="dashed"
+                onClick={() =>
+                  window.open("https://github.com/Mollydj", "_blank")
+                }
+              >
                 Molly DJ
                 <GithubFilled />
               </CryptoButton>
@@ -114,7 +121,10 @@ function App() {
           <div className="resources">
             <CryptoButton
               onClick={() =>
-                window.open("https://www.coingecko.com/", "_blank")
+                window.open(
+                  "https://docs.cdp.coinbase.com/api-reference/advanced-trade-api/rest-api/introduction",
+                  "_blank",
+                )
               }
             >
               API
