@@ -4,27 +4,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  h1 {
+    margin: 0px;
+    color: @primary-color;
+  }
 }
 
-.drawer-test {
-  padding: @size-none @size-xl @size-none @size-xl;
+.crpyto-drawer {
+  background-color: @background-color;
+  padding: 0px @size-xxl;
   width: 100%;
 }
 
-ul.ant-list-items {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  width: 100%;
+.ant-layout-sider-children {
+  background-color: @background-color;
 }
 
-li.ant-list-item {
-  padding: @size-med @size-none;
-  color: @primary-color;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
+// ul.ant-list-items {
+//   justify-content: center;
+//   align-items: center;
+//   display: flex;
+//   width: 100%;
+// }
+
+// li.ant-list-item {
+//   padding: @size-med @size-none;
+//   color: @primary-color;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+// }
 
 // ANTD AVATAR STYLES
 
@@ -51,9 +61,16 @@ li.ant-list-item {
 
 .crypto-drawer-change {
   display: flex;
+  
   gap: @primary-gap;
 
   .ant-segmented {
     background-color: @secondary-background-color;
+  }
+}
+
+.crypto-drawer-list {
+  ul.ant-list-items {
+    gap: @size-xl;
   }
 }

@@ -13,6 +13,7 @@ import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import CryptoTooltip from "../CryptoTooltip/CryptoTooltip";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { useSelectedCoin } from "../../Contexts/SelectedCoinContext/SelectedCoinContext";
 
 interface CardProps {
   coins: CoinbaseProduct[];
@@ -31,9 +32,8 @@ const CryptoCard: React.FC<CardProps> = ({
   isLoading,
   lastFetchedTimestamp,
 }) => {
-  const [selectedCoin, setSelectedCoin] = useState<string>(
-    placeholderCoin.product_id,
-  );
+  const { setSelectedCoin } = useSelectedCoin();
+
   const [lastLiveUpdate, setLastLiveUpdate] = useState<string>("");
   const { currency } = useCurrency();
   const { enableLivePrices } = EnableLivePricesContext();
@@ -67,8 +67,9 @@ const CryptoCard: React.FC<CardProps> = ({
   if (!coins || coins.length === 0) return null;
 
   return (
-    <div className="card-container">
-      <div className="card-content-wrapper">
+    // <div className="card-container">
+      // <div className="card-content-wrapper">
+      <>
         <div className="section-title">
           <h2>
             Top Movers{" "}
@@ -143,15 +144,13 @@ const CryptoCard: React.FC<CardProps> = ({
             );
           }}
         />
-      </div>
-
-      {/* Drawer for selected coin */}
-      <CryptoDrawer
-        isLoading={isLoading}
-        width="85%"
-        productId={selectedCoin}
-      />
-    </div>
+        </>
+      // </div>
+      // {/* <CryptoDrawer
+      //   isLoading={isLoading}
+      //   productId={selectedCoin}
+      // /> */}
+    // {/* </div> */}
   );
 };
 

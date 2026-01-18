@@ -25,7 +25,7 @@ const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
   const side = livePriceData?.side || placeholderCoin.side;
 
   return (
-    <div className="drawer-test">
+    <div className="crpyto-drawer">
       {!coin && null}
       <span className="crypto-drawer-title">
         <h1>{coin.display_name}</h1>
@@ -46,7 +46,7 @@ const CryptoDrawer: React.FC<CardProps> = ({ productId }) => {
       <h3>{coin.base_name} Statistics</h3>
 
       <List
-        className="crypto-drawer-list"
+        rootClassName="crypto-drawer-list"
         dataSource={getCoinDrawerData(coin, currency, livePriceData)}
         renderItem={(item) => (
           <List.Item key={item.key} className="crypto-drawer-list-item">

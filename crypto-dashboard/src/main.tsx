@@ -5,6 +5,7 @@ import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CurrencyProvider } from "./Contexts/CurrencyContext/CurrencyContext";
 import { EnableLivePricesProvider } from "./Contexts/EnableLivePricesContext/EnableLivePricesContext";
+import { SelectedCoinContextProvider } from "./Contexts/SelectedCoinContext/SelectedCoinProvider";
 const queryClient = new QueryClient();
 
 // CUSTOM COLORS
@@ -81,17 +82,19 @@ if (!rootElement) throw new Error("Root element not found");
 const appNode = (
   <CurrencyProvider>
     <EnableLivePricesProvider>
-      <ConfigProvider
-        theme={{
-          algorithm: theme.darkAlgorithm,
-          token: { fontFamily: "VT323, monospace" },
-          components: customTheme.components,
-        }}
-      >
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </ConfigProvider>
+      <SelectedCoinContextProvider>
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+            token: { fontFamily: "VT323, monospace" },
+            components: customTheme.components,
+          }}
+        >
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+        </ConfigProvider>
+      </SelectedCoinContextProvider>
     </EnableLivePricesProvider>
   </CurrencyProvider>
 ) as React.ReactNode;
