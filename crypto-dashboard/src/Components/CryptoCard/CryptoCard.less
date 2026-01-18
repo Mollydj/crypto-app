@@ -1,12 +1,16 @@
 @import "../../variables.less";
 
+.card-content-wrapper > .ant-list {
+  width: 300px;
+}
+
 // PAGINATION STYLING
 ul.ant-list-items {
-  width: 300px;
+  width: 100%;
+  // width: 400px;
   gap: 8px;
   display: flex;
   flex-direction: column;
-  // width: 100%;
   li.ant-list-item {
     cursor: pointer;
     background-color: var(--background);
@@ -26,27 +30,6 @@ ul.ant-list-items {
   margin-block-start: 0px;
   writing-mode: horizontal-tb;
 }
-
-// // ONMORE BUTTON STYLING
-// .card-expand-button {
-//   background-color: transparent;
-//   border: none;
-//   padding: 4px 4px;
-//   margin-right: 8px;
-//   border-radius: 4px;
-//   color: @primary-color;
-//   box-shadow: 0px;
-// }
-// .card-expand-button:active {
-//   background-color: @secondary-color;
-//   color: @secondary-color;
-//   cursor: pointer;
-// }
-// .card-expand-button:hover {
-//   background-color: @primary-color;
-//   color: @secondary-color;
-//   cursor: pointer;
-// }
 
 // CARD STYLING
 

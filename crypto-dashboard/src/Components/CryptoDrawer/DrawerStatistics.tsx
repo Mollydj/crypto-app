@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { CoinWithCoinbaseNormalized } from "../../Hooks/useCoinbaseProductById";
 import { CoinbaseProduct } from "../../types";
-import { CurrencyType } from "../../Utils/CurrencyContext";
+import { CurrencyContextType } from "../../Utils/CurrencyContext";
 import NumberFlow from "@number-flow/react";
 
 export type FormatType = "currency" | "percent" | "raw";
@@ -44,7 +44,7 @@ export const formatDrawerValue = (
 
 export const getCoinDrawerData = (
   coin: CoinbaseProduct,
-  currency: CurrencyType,
+  currency: CurrencyContextType,
   livePriceData?: CoinWithCoinbaseNormalized,
 ): DrawerStat[] => {
   if (!coin || !livePriceData || !currency) return;
