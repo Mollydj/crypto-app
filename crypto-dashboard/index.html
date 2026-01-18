@@ -1,44 +1,28 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2RFV20077L"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-2RFV20077L");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>crypto-dashboard</title>
-
-    <script type="module">
-      if (import.meta.env.VITE_ENV === "prod") {
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-5QRNP7WB");
-      }
-    </script>
   </head>
-
   <body>
-    <script type="module">
-      if (import.meta.env.VITE_ENV === "prod") {
-        const noscript = document.createElement("noscript");
-        noscript.innerHTML = `
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-5QRNP7WB"
-            height="0"
-            width="0"
-            style="display:none;visibility:hidden"
-          ></iframe>
-        `;
-        document.body.appendChild(noscript);
-      }
-    </script>
-
     <div id="root"></div>
-
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx">
+      <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    </script>
   </body>
 </html>
