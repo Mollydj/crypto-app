@@ -80,12 +80,13 @@ export const getCoinDrawerData = (
     {
       label: "24h Price Change (%)",
       value: (
+        // TODO: ADD COLOR HERE FOR NEGATIVE NUMBERS
         <NumberFlow
           willChange
           animated
           value={priceChange/100}
           format={{
-            style: "percent", // format as %
+            style: "percent",
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
             signDisplay: "always",
