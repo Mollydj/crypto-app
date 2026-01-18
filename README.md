@@ -69,9 +69,9 @@ yarn dev
 
 - [x]  Coinbase API integration
 - [x]  Live updates via WebSocket
-- [ ]  [SPIKE]: Look into Lazy queries
+- [x]  Display timestamp for last live WebSocket call
 - [ ]  Display if cached data is being used (message/text)
-- [ ]  Display timestamp for last live WebSocket call
+- [ ]  [SPIKE]: Look into Lazy queries
 
 ## 📊 Core Product Features
 
@@ -81,27 +81,26 @@ yarn dev
 - [x]  Toggle on/off live updates
 - [x]  Currency switcher
 - [x]  Coin Detail Page
-- [ ]  Add Image to each coin card
 - [ ]  Favorite coins via localStorage
 
 ## 🧭 Navigation & Layout
 
 - [x]  Create Sidepanel terminal component
-- [ ]  Add Header section with timestamp showing time of last live update
+- [x]  Add Header section with timestamp showing time of last live update
 - [ ]  Adjust App for Mobile View
 
 ## 🎨 Design System & UI Polish
 
 - [ ]  Define Color Palette
 - [ ]  Dark Mode / Light Mode Toggle
-- [ ]  Add LESS variables to all styling files - no hardcoded paddins, colors etc
-- [ ]  Add tooltips with information about each metric in statistics table
+- [x]  Add LESS variables to all styling files - no hardcoded paddins, colors etc
+- [x]  Add tooltips with information about each metric in statistics table
+- [ ]  Make List items expandable in statistics section
 
 ## 🚨 UX Feedback & States
 
-- [ ]  API Success Notification
-- [ ]  API Error Notification
-- [ ]  Show error message on endpoint failure or redirect to `/404.html`
+- [x]  API Success Notification
+- [x]  API Error Notification
 - [ ]  Style Error Page
 - [ ]  Style Loading Page
 - [ ]  Add an alert stating the project is still under construction
