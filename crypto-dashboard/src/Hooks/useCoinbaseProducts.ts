@@ -11,8 +11,8 @@ export type sorter = {
 export const fetchCoinbaseProducts = async (
   currency: CurrencyType,
 ): Promise<CoinbaseProduct[]> => {
-  console.log("currency>>", currency);
   const res = await api.get("/api/marketcap");
+  console.log("Coinsbase API data fetched successfully");
   return res.data.products
     .filter((p: CoinbaseProduct) => p.quote_display_symbol === currency)
     .filter((p: CoinbaseProduct) => !p.display_name.includes("USDC"))

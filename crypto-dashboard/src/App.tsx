@@ -30,7 +30,7 @@ function App() {
     isError,
     isPlaceholderData,
   } = useCoinbaseProducts();
-  
+
   const { selectedCoin } = useSelectedCoin();
   useEffect(() => {
     if (isSuccess && coins?.length && !isPlaceholderData) {
@@ -80,58 +80,56 @@ function App() {
             </Header>
             <Layout>
               <Content>
-                <div className="content-section">
+                <Sider width={"25%"}>
                   <CryptoCard
                     lastFetchedTimestamp={lastFetchedTimestamp}
                     isLoading={isLoading}
                     coins={coins}
                   />
-                </div>
-              </Content>
-              <Sider width={"75%"}>
+                </Sider>
                 <CryptoDrawer isLoading={isLoading} productId={selectedCoin} />
-              </Sider>
+              </Content>
             </Layout>
-            {/* {!isLoading && (
-          <Footer>
-          <div>
-          <p>
-          Designed and coded by{" "}
-          <CryptoButton
-          variant="dashed"
-          onClick={() =>
-          window.open("https://github.com/Mollydj", "_blank")
-          }
-          >
-          Molly DJ
-          <GithubFilled />
-          </CryptoButton>
-          </p>
-          </div>
-          <div className="resources">
-          <CryptoButton
-          onClick={() =>
-          window.open(
-            "https://docs.cdp.coinbase.com/api-reference/advanced-trade-api/rest-api/introduction",
-            "_blank",
-            )
-            }
-            >
-            API
-            </CryptoButton>
-            <CryptoButton
-            onClick={() =>
-            window.open(
-              "https://www.linkedin.com/in/mollydeangelisjimenez/",
-              "_blank",
-              )
-              }
-              >
-              LinkedIn
-              </CryptoButton>
-              </div>
+            {!isLoading && (
+              <Footer>
+                <div>
+                  <p>
+                    Designed and coded by{" "}
+                    <CryptoButton
+                      variant="dashed"
+                      onClick={() =>
+                        window.open("https://github.com/Mollydj", "_blank")
+                      }
+                    >
+                      Molly DJ
+                      <GithubFilled />
+                    </CryptoButton>
+                  </p>
+                </div>
+                <div className="resources">
+                  <CryptoButton
+                    onClick={() =>
+                      window.open(
+                        "https://docs.cdp.coinbase.com/api-reference/advanced-trade-api/rest-api/introduction",
+                        "_blank",
+                      )
+                    }
+                  >
+                    API
+                  </CryptoButton>
+                  <CryptoButton
+                    onClick={() =>
+                      window.open(
+                        "https://www.linkedin.com/in/mollydeangelisjimenez/",
+                        "_blank",
+                      )
+                    }
+                  >
+                    LinkedIn
+                  </CryptoButton>
+                </div>
               </Footer>
-              )} */}
+            )}
           </Layout>
         </Flex>
       </CryptoProvider>

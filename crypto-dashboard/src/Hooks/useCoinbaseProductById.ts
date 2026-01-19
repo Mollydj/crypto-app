@@ -17,6 +17,7 @@ export type CoinWithCoinbaseNormalized = Omit<
 
 export const fetchCoinbaseProductById = async (productId: string): Promise<CoinbaseProduct> => {
   const response = await api.get(`/api/marketcapid?coin=${productId}`);
+  console.log(`${productId} data fetched successfully from Coinsbase API`);
   return response.data;
 };
 

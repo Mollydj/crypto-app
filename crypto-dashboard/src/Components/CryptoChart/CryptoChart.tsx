@@ -20,6 +20,8 @@ import "./CryptoChart.less";
 import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import { secondaryTextColor } from "../../main";
+import { Skeleton } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 ChartJS.register(
   CategoryScale,
@@ -165,14 +167,17 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ coin }) => {
 
   return (
     <div className="crypto-drawer-chart">
-      {priceHistory.length === 0 ? (
-        <p>No Data Yet</p>
-      ) : (
+      {/* {null ? ( */}
+      {priceHistory.length ? (
         <Line
           onBlur={() => console.log("FOCUSSED!!")}
           data={data}
           options={options}
         />
+      ) : (
+        <div className="crypto-chart-loading-box">
+          <LoadingOutlined />
+        </div>
       )}
     </div>
   );

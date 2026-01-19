@@ -102,12 +102,8 @@ const CryptoCard: React.FC<CardProps> = ({
                 <div className="crypto-card-coin-header">
                   <div className="crypto-card-name">
                     <div className="crypto-card-avatar-container">
-                      {/* <Avatar size={20}>
-                        <TransactionOutlined size={18} />
-                      </Avatar> */}
                       <p>{coin.base_name}</p>
                     </div>
-                    {/* TODO: ADD COLOR HERE FOR NEGATIVE NUMBERS */}
                     <CryptoTooltip title="This metric indicates the % change in price over the previous 24 hours">
                       <NumberFlow
                         willChange

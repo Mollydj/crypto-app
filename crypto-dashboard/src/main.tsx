@@ -73,6 +73,8 @@ const customTheme = {
       defaultBorderColor: backgroundColor,
       ghostBg: primaryColor,
       defaultGhostBorderColor: primaryColor,
+      colorErrorBg: 'blue',
+      colorError: dangerColor
     },
   },
 };
