@@ -62,15 +62,30 @@ yarn dev
 - [x]  OnRender Deployment
 - [ ]  Upgrade yarn version to yarn v3
 - [ ]  Adjust chunk size with minifier for CSS
-- [ ]  Fix all TS and ESLint errors before implementing new features
+- [x]  Add logs to show Websocket state
+- [ ]  Fix all TS and ESLint errors before implementing new features // IN PROGRESS
 - [ ]  Unit tests
+    - [x]  Top 20 tokens render correct with a snapshot
+        - [x]  Success on retrieval of coins w/ snapshot
+        - [x]  Spinner displays on loading w/ snapshot
+        - [x]  Error page displays on api error w/ snapshot
+    - [ ]  Coin Details page renders correctly with a snapshot // IN PROGRESS
+        - [ ]  Success on retrieval of chart w/ snapshot
+        - [ ]  Spinner displays on loading w/ snapshot
+        - [ ]  Error page displays on api error w/ snapshoty
+    - [ ]  Toggle Off/On live updates
+    - [ ]  Test all links
+        - [ ]  Readme link
+        - [ ]  API
+        - [ ]  Linkedin
+        - [ ]  Github page
+    
 
 ## 🔌 Data, API & State
 
 - [x]  Coinbase API integration
 - [x]  Live updates via WebSocket
 - [x]  Display timestamp for last live WebSocket call
-- [ ]  Display if cached data is being used (message/text)
 - [ ]  [SPIKE]: Look into Lazy queries
 
 ## 📊 Core Product Features
@@ -81,7 +96,7 @@ yarn dev
 - [x]  Toggle on/off live updates
 - [x]  Currency switcher
 - [x]  Coin Detail Page
-- [ ]  Favorite coins via localStorage
+- [ ]  Allow users to favorite coins and save via localStorage
 
 ## 🧭 Navigation & Layout
 
@@ -91,18 +106,17 @@ yarn dev
 
 ## 🎨 Design System & UI Polish
 
-- [ ]  Define Color Palette
+- [x]  Define Color Palette
 - [ ]  Dark Mode / Light Mode Toggle
 - [x]  Add LESS variables to all styling files - no hardcoded paddins, colors etc
 - [x]  Add tooltips with information about each metric in statistics table
-- [ ]  Make List items expandable in statistics section
 
 ## 🚨 UX Feedback & States
 
 - [x]  API Success Notification
 - [x]  API Error Notification
-- [ ]  Style Error Page
-- [ ]  Style Loading Page
+- [x]  Style Error Page
+- [x]  Style Loading Page
 - [ ]  Add an alert stating the project is still under construction
 
 ## 🚀 Deployment (Completed)
