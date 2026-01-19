@@ -8,7 +8,7 @@ import {
   ClockCircleOutlined,
 } from "@ant-design/icons";
 import { CoinbaseProduct } from "../../types";
-import { CurrencyContextType } from "../../Contexts/CurrencyContext/CurrencyContext";
+import { CurrencyContextType } from "../../Contexts/CurrencyContext/CurrencyProvider";
 import NumberFlow from "@number-flow/react";
 
 export type FormatType = "currency" | "percent" | "raw";

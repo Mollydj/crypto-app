@@ -7,15 +7,15 @@ import { GithubFilled } from "@ant-design/icons";
 import { useCoinbaseProducts } from "./Hooks/useCoinbaseProducts";
 import { CoinbaseProduct } from "./types";
 import CryptoCard from "./Components/CryptoCard/CryptoCard";
-import { CryptoProvider } from "./Contexts/CryptoContext/CryptoContext";
+import { CryptoProvider } from "./Contexts/CryptoContext/CryptoProvider";
 import { EnableLivePricesContext } from "./Contexts/EnableLivePricesContext/EnableLivePricesContext";
 import { MessageContext } from "./Contexts/MessagesContext/MessageContext";
-import { useCurrency } from "./Contexts/CurrencyContext/CurrencyContext";
 import Sider from "antd/es/layout/Sider";
 import CryptoDrawer from "./Components/CryptoDrawer/CryptoDrawer";
 import { useSelectedCoin } from "./Contexts/SelectedCoinContext/SelectedCoinContext";
 import CryptoLoader from "./Components/CryptoLoader/CryptoLoader";
 import CryptoError from "./Components/CryptoError.tsx/CryptoError";
+import { useCurrency } from "./Contexts/CurrencyContext/CurrencyContext";
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -89,7 +89,7 @@ function App() {
                     coins={coins}
                   />
                 </Sider>
-                <CryptoDrawer isLoading={isLoading} productId={selectedCoin} />
+                <CryptoDrawer productId={selectedCoin} />
               </Content>
             </Layout>
             {!isLoading && (

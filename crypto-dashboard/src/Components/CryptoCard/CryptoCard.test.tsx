@@ -1,7 +1,6 @@
-// src/Components/CryptoCard/CryptoCard.test.tsx
 import { render, screen } from "@testing-library/react";
 import CryptoCard from "./CryptoCard";
-import { CurrencyProvider } from "../../Contexts/CurrencyContext/CurrencyContext";
+import { CurrencyProvider } from "../../Contexts/CurrencyContext/CurrencyProvider";
 import { describe, it, expect } from "vitest";
 import { mockCoins } from "../../test/MockData";
 import { EnableLivePricesProvider } from "../../Contexts/EnableLivePricesContext/EnableLivePricesContext";

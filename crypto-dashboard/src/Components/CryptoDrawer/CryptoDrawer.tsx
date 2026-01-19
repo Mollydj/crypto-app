@@ -5,12 +5,12 @@ import { useCoinbaseProductById } from "../../Hooks/useCoinbaseProductById";
 import { placeholderCoin } from "../../types";
 import CryptoChart from "../CryptoChart/CryptoChart";
 import { getCoinDrawerData } from "./DrawerStatistics";
-import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 import SelectCurrency from "../SelectCurrency/SelectCurrency";
 import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import CryptoLoader from "../CryptoLoader/CryptoLoader";
 import CryptoError from "../CryptoError.tsx/CryptoError";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 
 interface CardProps {
   productId: string;

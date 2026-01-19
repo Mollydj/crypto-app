@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./CryptoCard.less";
 import { List } from "antd";
 import NumberFlow from "@number-flow/react";
-import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 import { EnableLivePricesContext } from "../../Contexts/EnableLivePricesContext/EnableLivePricesContext";
 import { useTickerPrice } from "../../Contexts/TickerContext/TickerContext";
 import CryptoTooltip from "../CryptoTooltip/CryptoTooltip";
@@ -10,6 +9,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useSelectedCoin } from "../../Contexts/SelectedCoinContext/SelectedCoinContext";
 import { CoinbaseProduct } from "../../Hooks/useCoinbaseProductById";
+import { useCurrency } from "../../Contexts/CurrencyContext/CurrencyContext";
 
 interface CardProps {
   coins: CoinbaseProduct[];
@@ -55,8 +55,8 @@ const CryptoCard: React.FC<CardProps> = ({
   }, [lastFetchedTimestamp]);
 
   useEffect(() => {
-    setSelectedCoin(coins[0]?.product_id);
-  }, [coins]);
+      setSelectedCoin(coins[0].product_id);
+  }, [coins, setSelectedCoin]);
   if (!coins || coins.length === 0) return null;
   return (
     <>
@@ -99,11 +99,11 @@ const CryptoCard: React.FC<CardProps> = ({
                       willChange
                       animated
                       className={
-                        livePriceTwentyFourHourPercentage / 100 > 0
+                        Number(livePriceTwentyFourHourPercentage) / 100 > 0
                           ? "positive"
                           : "negative"
                       }
-                      value={livePriceTwentyFourHourPercentage / 100}
+                      value={Number(livePriceTwentyFourHourPercentage) / 100}
                       format={{
                         style: "percent",
                         minimumFractionDigits: 2,

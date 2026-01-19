@@ -1,10 +1,6 @@
 import CryptoButton from "../Button/Button";
 import "./CryptoError.less";
 
-// interface CryptoErrorProps {
-//   showText?: boolean;
-// }
-
 const CryptoError = () => {
   return (
     <div className="crypto-error-container">

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ConfigProvider, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CurrencyProvider } from "./Contexts/CurrencyContext/CurrencyContext";
+import { CurrencyProvider } from "./Contexts/CurrencyContext/CurrencyProvider";
 import { EnableLivePricesProvider } from "./Contexts/EnableLivePricesContext/EnableLivePricesContext";
 import { SelectedCoinContextProvider } from "./Contexts/SelectedCoinContext/SelectedCoinProvider";
 const queryClient = new QueryClient();

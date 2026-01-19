@@ -1,7 +1,7 @@
 export interface CoinbaseProduct {
-  price_difference?: string;
-  price_difference_percent?: string;
-  side?: string;
+  price_difference: string;
+  price_difference_percent: string;
+  side: string;
   product_id: string;
   price: string;
   price_percentage_change_24h: string;
@@ -48,7 +48,7 @@ export interface CoinbaseProduct {
   display_name_overwrite: string;
   is_alpha_testing: boolean;
   about_description: string;
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 
