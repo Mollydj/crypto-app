@@ -14,13 +14,15 @@ import { useCurrency } from "./Contexts/CurrencyContext/CurrencyContext";
 import Sider from "antd/es/layout/Sider";
 import CryptoDrawer from "./Components/CryptoDrawer/CryptoDrawer";
 import { useSelectedCoin } from "./Contexts/SelectedCoinContext/SelectedCoinContext";
+import CryptoLoader from "./Components/CryptoLoader/CryptoLoader";
+import CryptoError from "./Components/CryptoError.tsx/CryptoError";
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();
   const { currency } = useCurrency();
   const { enableLivePrices, setEnableLivePrices } = EnableLivePricesContext();
-  const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<Date>(
-    new Date(),
+  const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<string>(
+    new Date().toLocaleString(),
   );
   const {
     data: coins = [],
@@ -42,10 +44,10 @@ function App() {
   }, [isSuccess, coins, isPlaceholderData, messageApi, isError]);
 
   if (isLoading) {
-    return <h2>Loading coins...</h2>;
+    return <CryptoLoader hideText />;
   }
 
-  if (error) return <h2>Error! Refresh the app</h2>;
+  if (error) return <CryptoError />;
 
   if (!Array.isArray(coins) || !currency) return null;
 
@@ -64,7 +66,7 @@ function App() {
                 checked={enableLivePrices}
                 onChange={(checked) => {
                   setEnableLivePrices(checked);
-                  setLastFetchedTimestamp(new Date());
+                  setLastFetchedTimestamp(new Date().toLocaleString());
                 }}
                 checkedChildren="Live Updates On"
                 unCheckedChildren="Live Updates Off"

@@ -7,7 +7,6 @@ import {
   SyncOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
-import { CoinWithCoinbaseNormalized } from "../../Hooks/useCoinbaseProductById";
 import { CoinbaseProduct } from "../../types";
 import { CurrencyContextType } from "../../Contexts/CurrencyContext/CurrencyContext";
 import NumberFlow from "@number-flow/react";
@@ -24,7 +23,7 @@ export interface DrawerStat {
 export const getCoinDrawerData = (
   coin: CoinbaseProduct,
   currency: CurrencyContextType,
-  livePriceData?: CoinWithCoinbaseNormalized,
+  livePriceData?: CoinbaseProduct,
 ): DrawerStat[] => {
   if (!coin || !livePriceData || !currency) return;
   const price = livePriceData?.price ?? coin.price;

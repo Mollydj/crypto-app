@@ -29,6 +29,10 @@ jobs:
         working-directory: crypto-dashboard
         run: yarn lint
 
+      - name: Run Tests
+        working-directory: crypto-dashboard
+        run: yarn test
+
       - name: Build
         working-directory: crypto-dashboard
         run: yarn build

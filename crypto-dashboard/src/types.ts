@@ -1,11 +1,11 @@
 export interface CoinbaseProduct {
-  price_difference: string | number;
-  price_difference_percent: string | number;
-  side: string;
+  price_difference?: string;
+  price_difference_percent?: string;
+  side?: string;
   product_id: string;
   price: string;
-  price_percentage_change_24h: string | number;
-  volume_24h: string | number;
+  price_percentage_change_24h: string;
+  volume_24h: string;
   volume_percentage_change_24h: string;
   base_increment: string;
   quote_increment: string;
@@ -27,17 +27,17 @@ export interface CoinbaseProduct {
   product_type: "SPOT" | "FUTURE" | string;
   quote_currency_id: string;
   base_currency_id: string;
-  fcm_trading_session_details: any | null;
+  fcm_trading_session_details: string | null;
   mid_market_price: string;
   alias: string;
   alias_to: string[];
   base_display_symbol: string;
   quote_display_symbol: string;
   view_only: boolean;
-  price_increment: string | number;
+  price_increment: string;
   display_name: string;
   product_venue: string;
-  approximate_quote_24h_volume: string | number;
+  approximate_quote_24h_volume: string;
   new_at: string;
   market_cap: string;
   base_cbrn: string;
@@ -53,9 +53,9 @@ export interface CoinbaseProduct {
 
 
 export const placeholderCoin: CoinbaseProduct = {
-  price_difference: "0.00",
-  price_difference_percent: "0.00",
-  side: "Buy",
+  price_difference: "0",
+  price_difference_percent: "0",
+  side: "Buy/Sell",
   product_id: "",
   price: "0000.00",
   price_percentage_change_24h: "0",
@@ -101,7 +101,7 @@ export const placeholderCoin: CoinbaseProduct = {
   icon_url: "",
   display_name_overwrite: "",
   is_alpha_testing: false,
-  about_description: ""
+  about_description: "",
 };
 
 
