@@ -44,7 +44,7 @@ function App() {
   }, [isSuccess, coins, isPlaceholderData, messageApi, isError]);
 
   if (isLoading || isPlaceholderData) {
-    return <CryptoLoader hideText />;
+    return <CryptoLoader />;
   }
 
   if (error) return <CryptoError />;
